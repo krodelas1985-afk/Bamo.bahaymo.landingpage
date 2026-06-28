@@ -152,3 +152,16 @@
     color: var(--color-foreground);
   }
 }
+
+@layer utilities {
+  .text-gradient-brand {
+    background: var(--gradient-brand);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .bg-gradient-brand { background: var(--gradient-brand); }
+  .bg-hero { background-image: var(--gradient-hero); }
+  .shadow-elegant { box-shadow: var(--shadow-elegant); }
+  .shadow-glow { box-shadow: var(--shadow-glow); }
+}
