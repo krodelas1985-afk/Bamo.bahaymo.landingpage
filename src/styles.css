@@ -165,3 +165,6 @@
   .shadow-elegant { box-shadow: var(--shadow-elegant); }
   .shadow-glow { box-shadow: var(--shadow-glow); }
 }
+
+html, body { font-family: 'Epilogue', system-ui, sans-serif; }
+h1, h2, h3, h4, .font-display { font-family: 'Urbanist', system-ui, sans-serif; letter-spacing: -0.02em; }
