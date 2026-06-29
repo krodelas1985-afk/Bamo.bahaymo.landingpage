@@ -639,7 +639,7 @@ function Founding() {
     "Early access + lifetime adopter benefits",
   ];
   return (
-    <Section id="founding" className="py-20 sm:py-28">
+    <Section id="founding" className="py-20 sm:py-28 bg-[color:var(--tint-peach)] rounded-[2rem]">
       <motion.div
         initial="hidden"
         whileInView="show"
