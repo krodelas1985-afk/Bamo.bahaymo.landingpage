@@ -328,7 +328,7 @@ function Included() {
     },
   ];
   return (
-    <Section id="included" className="py-20 sm:py-28 bg-secondary/40 rounded-[2rem]">
+    <Section id="included" className="py-20 sm:py-28 bg-[color:var(--tint-sky)] rounded-[2rem]">
       <motion.div
         initial="hidden"
         whileInView="show"
