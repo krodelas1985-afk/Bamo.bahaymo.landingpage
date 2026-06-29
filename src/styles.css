@@ -104,6 +104,15 @@
   --gradient-hero: radial-gradient(1200px 600px at 80% -10%, rgba(245,144,34,0.18), transparent 60%), radial-gradient(900px 500px at 0% 10%, rgba(15,31,77,0.08), transparent 60%);
   --shadow-elegant: 0 30px 60px -30px rgba(15,31,77,0.25);
   --shadow-glow: 0 20px 50px -20px rgba(229,57,53,0.35);
+
+  /* Soft tints — lively but gentle, harmonized with navy + orange/red */
+  --tint-cream: #fff6ec;       /* warm peach cream */
+  --tint-peach: #fdeede;       /* slightly deeper peach */
+  --tint-sky:   #eef3ff;       /* soft cool blue from navy family */
+  --tint-mint:  #ecf6f1;       /* gentle complementary mint */
+  --tint-blush: #fdecec;       /* faint red blush */
+
+  --shadow-glow: 0 20px 50px -20px rgba(229,57,53,0.35);
 }
 
 

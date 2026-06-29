@@ -232,7 +232,8 @@ function Problem() {
     },
   ];
   return (
-    <Section className="py-20 sm:py-28">
+    <Section className="py-20 sm:py-28 bg-[color:var(--tint-cream)] rounded-[2rem]">
+
       <motion.div
         initial="hidden"
         whileInView="show"
@@ -327,7 +328,7 @@ function Included() {
     },
   ];
   return (
-    <Section id="included" className="py-20 sm:py-28 bg-secondary/40 rounded-[2rem]">
+    <Section id="included" className="py-20 sm:py-28 bg-[color:var(--tint-sky)] rounded-[2rem]">
       <motion.div
         initial="hidden"
         whileInView="show"
@@ -490,7 +491,7 @@ function HowItWorks() {
     },
   ];
   return (
-    <Section id="how" className="py-20 sm:py-28">
+    <Section id="how" className="py-20 sm:py-28 bg-[color:var(--tint-mint)] rounded-[2rem]">
       <motion.div
         initial="hidden"
         whileInView="show"
@@ -638,7 +639,7 @@ function Founding() {
     "Early access + lifetime adopter benefits",
   ];
   return (
-    <Section id="founding" className="py-20 sm:py-28">
+    <Section id="founding" className="py-20 sm:py-28 bg-[color:var(--tint-peach)] rounded-[2rem]">
       <motion.div
         initial="hidden"
         whileInView="show"
