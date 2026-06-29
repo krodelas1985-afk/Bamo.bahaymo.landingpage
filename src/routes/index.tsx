@@ -232,7 +232,8 @@ function Problem() {
     },
   ];
   return (
-    <Section className="py-20 sm:py-28">
+    <Section className="py-20 sm:py-28 bg-[color:var(--tint-cream)] rounded-[2rem]">
+
       <motion.div
         initial="hidden"
         whileInView="show"
