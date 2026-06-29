@@ -491,7 +491,7 @@ function HowItWorks() {
     },
   ];
   return (
-    <Section id="how" className="py-20 sm:py-28">
+    <Section id="how" className="py-20 sm:py-28 bg-[color:var(--tint-mint)] rounded-[2rem]">
       <motion.div
         initial="hidden"
         whileInView="show"
