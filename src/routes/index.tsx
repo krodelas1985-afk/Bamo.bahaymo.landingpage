@@ -5,36 +5,40 @@ import {
   Clock,
   Filter,
   MessageSquare,
-  Phone,
   Sparkles,
   TrendingUp,
   ShieldCheck,
   ArrowRight,
   Zap,
+  Globe,
+  Megaphone,
+  Video,
+  Bot,
+  Database,
+  CalendarCheck,
+  ListChecks,
+  BarChart3,
+  X,
+  Flag,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+import { Input } from "@/components/ui/input";
 import logo from "@/assets/baymo-logo.png.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "BayMo — Only the leads ready to close. Real estate marketing, done for you." },
+      { title: "BayMo — Your AI Growth Team for Philippine Real Estate" },
       {
         name: "description",
         content:
-          "BayMo runs your real estate marketing and follow-up so you only see leads ready to close. Limited to 5 agent/broker partners per month.",
+          "BaMo builds your website, runs your ads, replies to every lead 24/7 and books appointments — so Filipino real estate agents can focus on closing.",
       },
-      { property: "og:title", content: "BayMo — Real estate marketing made simple" },
+      { property: "og:title", content: "BayMo — Your AI Growth Team for Real Estate" },
       {
         property: "og:description",
         content:
-          "Done-for-you ads, follow-up and qualification. You only talk to leads ready to close.",
+          "Website, ads, content, follow-up, CRM and appointment setting — done for you. Built for Philippine real estate.",
       },
       { property: "og:type", content: "website" },
       { property: "og:image", content: logo.url },
@@ -49,7 +53,6 @@ const fadeUp = {
   hidden: { opacity: 0, y: 24 },
   show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" as const } },
 };
-
 
 function Section({
   id,
@@ -75,9 +78,9 @@ function Nav() {
           <img src={logo.url} alt="BayMo" className="h-8 w-auto" />
         </a>
         <nav className="hidden items-center gap-8 text-sm font-medium text-muted-foreground md:flex">
+          <a href="#included" className="hover:text-foreground">What's included</a>
           <a href="#how" className="hover:text-foreground">How it works</a>
-          <a href="#results" className="hover:text-foreground">Results</a>
-          <a href="#faq" className="hover:text-foreground">FAQ</a>
+          <a href="#founding" className="hover:text-foreground">Founding clients</a>
         </nav>
         <a href="#apply">
           <Button className="bg-gradient-brand text-white hover:opacity-95 shadow-glow h-10 px-5 rounded-full">
@@ -95,17 +98,15 @@ function Hero() {
       <div className="grid items-center gap-12 lg:grid-cols-[1.05fr_1fr]">
         <motion.div initial="hidden" animate="show" variants={fadeUp}>
           <span className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-            <Sparkles className="h-3.5 w-3.5 text-[color:var(--brand-orange)]" />
-            Only 5 partner spots this month
+            <Flag className="h-3.5 w-3.5 text-[color:var(--brand-orange)]" />
+            Your done-for-you growth team · Philippines
           </span>
           <h1 className="mt-5 font-display text-4xl font-extrabold leading-[1.05] text-foreground sm:text-5xl lg:text-6xl">
-            We run your marketing and follow-up.{" "}
-            <span className="text-gradient-brand">You only see leads ready to close.</span>
+            Your <span className="text-gradient-brand">AI Growth Team</span> for Real Estate.
           </h1>
           <p className="mt-5 max-w-xl text-lg text-muted-foreground">
-            BayMo is a done-for-you growth partner for real estate agents and brokers. We
-            generate, nurture, and qualify your leads — then hand you the ones with their
-            calendar open and a signature pen in hand.
+            We build your website, manage your marketing, respond to every lead 24/7, and
+            book appointments — so you can focus on closing more sales.
           </p>
           <div className="mt-8 flex flex-wrap items-center gap-4">
             <a href="#apply">
@@ -113,19 +114,21 @@ function Hero() {
                 size="lg"
                 className="bg-gradient-brand text-white hover:opacity-95 shadow-glow h-12 rounded-full px-7 text-base"
               >
-                Reserve my spot <ArrowRight className="ml-1 h-4 w-4" />
+                Become a Founding Client <ArrowRight className="ml-1 h-4 w-4" />
               </Button>
             </a>
-            <a href="#how" className="text-sm font-semibold text-foreground underline-offset-4 hover:underline">
-              See how it works →
+            <a href="#included" className="text-sm font-semibold text-foreground underline-offset-4 hover:underline">
+              See everything included ↓
             </a>
           </div>
           <ul className="mt-8 grid gap-3 text-sm text-muted-foreground sm:grid-cols-2">
             {[
-              "No upfront ad spend lock-in",
-              "Show-up rates above industry average",
-              "Cancel anytime after month one",
-              "Built for agents who hate cold outreach",
+              "Professional Website",
+              "Facebook Ads Managed",
+              "AI Content Creation",
+              "24/7 AI Follow-up",
+              "Private CRM",
+              "AI Appointment Setting",
             ].map((t) => (
               <li key={t} className="flex items-center gap-2">
                 <CheckCircle2 className="h-4 w-4 text-[color:var(--brand-orange)]" />
@@ -144,22 +147,28 @@ function Hero() {
           <div className="absolute -inset-6 rounded-3xl bg-gradient-brand opacity-20 blur-2xl" aria-hidden />
           <div className="relative rounded-3xl border border-border bg-card p-5 shadow-elegant">
             <div className="flex items-center justify-between border-b border-border pb-4">
-              <div>
-                <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                  Today's qualified leads
+              <div className="flex items-center gap-3">
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-brand text-white font-display font-bold">
+                  B
                 </div>
-                <div className="mt-1 font-display text-2xl font-bold">4 ready to close</div>
+                <div>
+                  <div className="font-display font-bold leading-tight">BayMo</div>
+                  <div className="text-xs text-muted-foreground">Your AI assistant · Today</div>
+                </div>
               </div>
               <div className="rounded-full bg-[color:var(--brand-orange)]/10 px-3 py-1 text-xs font-semibold text-[color:var(--brand-red)]">
                 Live
               </div>
             </div>
-            <ul className="mt-4 space-y-3">
+
+            <div className="mt-4 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+              New leads
+            </div>
+            <ul className="mt-2 space-y-2">
               {[
-                { name: "Marcus & Lena", note: "Pre-approved · $620k · tour Sat 11am", tag: "Hot" },
-                { name: "Priya R.", note: "Listing consult booked · Tue 2pm", tag: "Booked" },
-                { name: "Jordan T.", note: "Cash buyer · downtown condo", tag: "Hot" },
-                { name: "The Alvarez family", note: "Relocating Q3 · pre-qual sent", tag: "Warm" },
+                { name: "Joanna R.", note: "Asked about 2BR in Sta. Rosa", tag: "Hot" },
+                { name: "Mark D.", note: "Replied to your Cavite ad", tag: "Warm" },
+                { name: "Liza P.", note: "Requested a price list", tag: "Warm" },
               ].map((l) => (
                 <li
                   key={l.name}
@@ -173,9 +182,7 @@ function Hero() {
                     className={`rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider ${
                       l.tag === "Hot"
                         ? "bg-gradient-brand text-white"
-                        : l.tag === "Booked"
-                          ? "bg-[color:var(--brand-navy)] text-white"
-                          : "bg-secondary text-secondary-foreground"
+                        : "bg-secondary text-secondary-foreground"
                     }`}
                   >
                     {l.tag}
@@ -183,9 +190,20 @@ function Hero() {
                 </li>
               ))}
             </ul>
-            <div className="mt-5 flex items-center gap-2 text-xs text-muted-foreground">
+
+            <div className="mt-4 rounded-xl bg-[color:var(--brand-navy)] p-4 text-white">
+              <div className="text-[10px] font-semibold uppercase tracking-wider text-white/60">
+                Next appointment · Phone call
+              </div>
+              <div className="mt-1 font-display font-bold">Joanna R. · 3:30 PM</div>
+              <div className="mt-1 text-xs text-white/70">
+                Booked automatically · Budget confirmed ₱4.2M
+              </div>
+            </div>
+
+            <div className="mt-4 flex items-center gap-2 text-xs text-muted-foreground">
               <Zap className="h-4 w-4 text-[color:var(--brand-orange)]" />
-              237 conversations handled by BayMo this week. You: 0 cold calls.
+              Every inquiry replied to in under a minute.
             </div>
           </div>
         </motion.div>
@@ -194,11 +212,24 @@ function Hero() {
   );
 }
 
+// KEEP — The Honest Truth section, rewritten lightly for new positioning
 function Problem() {
   const items = [
-    { icon: Clock, t: "You're working leads at 9pm", d: "Every unanswered text is a deal walking out the door — but you can't be on call 24/7." },
-    { icon: Filter, t: "80% of leads aren't real", d: "Tire kickers, wrong numbers, and 'just curious' eat your week. You only have hours for closers." },
-    { icon: TrendingUp, t: "Ad agencies hand you garbage", d: "They report on clicks. You need conversations, appointments, and contracts." },
+    {
+      icon: Clock,
+      t: "You're doing two full-time jobs",
+      d: "Content, ads, Messenger, follow-ups, scheduling — and you're still expected to close. Something always slips.",
+    },
+    {
+      icon: Filter,
+      t: "Leads go cold in minutes",
+      d: "If a buyer doesn't get a reply fast, they message the next agent. You can't be on Messenger 24/7 — BaMo can.",
+    },
+    {
+      icon: TrendingUp,
+      t: "Stitching tools together doesn't work",
+      d: "An ads guy here, a VA there, a CRM you barely use. Nothing talks to each other. Nothing actually grows the pipeline.",
+    },
   ];
   return (
     <Section className="py-20 sm:py-28">
@@ -213,11 +244,12 @@ function Problem() {
           The honest truth
         </p>
         <h2 className="mt-3 font-display text-3xl font-extrabold sm:text-4xl">
-          You don't need more leads. You need fewer, better ones.
+          Stop doing everything yourself.
         </h2>
         <p className="mt-4 text-lg text-muted-foreground">
-          Most agents are drowning in half-warm contacts and chasing replies between
-          showings. BayMo flips it.
+          As a real estate agent you're expected to create content, run ads, reply to
+          Messenger, follow up, organize leads, schedule appointments — and still close.
+          That's two full-time jobs. BaMo takes care of everything except the closing.
         </p>
       </motion.div>
       <div className="mt-12 grid gap-5 md:grid-cols-3">
@@ -243,35 +275,59 @@ function Problem() {
   );
 }
 
-function HowItWorks() {
-  const steps = [
+function Included() {
+  const items = [
     {
-      n: "01",
-      icon: Sparkles,
-      t: "We launch your campaigns",
-      d: "Within 7 days, BayMo deploys proven ad creative, landing pages and lead capture under your brand — no setup work from you.",
+      icon: Globe,
+      eyebrow: "Get found",
+      t: "Professional Website",
+      d: "Your own branded real estate site with property listings, inquiry forms, lead capture, and a custom domain.",
     },
     {
-      n: "02",
-      icon: MessageSquare,
-      t: "We follow up for you, 24/7",
-      d: "Every new lead gets an instant text, a personalized email sequence and AI-assisted human follow-up until they reply or opt out.",
+      icon: Megaphone,
+      eyebrow: "Get seen",
+      t: "Facebook Ads Management",
+      d: "We plan, launch, monitor and optimize your campaigns to bring in qualified buyer inquiries. Ad budget is paid directly by you.",
     },
     {
-      n: "03",
-      icon: Filter,
-      t: "We qualify ruthlessly",
-      d: "Budget, timeline, motivation, pre-approval. We weed out the noise so you don't burn a Saturday on someone who 'just wanted to look'.",
+      icon: Video,
+      eyebrow: "Stay active",
+      t: "AI Marketing Content",
+      d: "Property promotions, social posts, ad creatives, AI promo videos and educational real estate content.",
     },
     {
-      n: "04",
-      icon: Phone,
-      t: "You only see closers",
-      d: "Appointments land in your calendar. Hot leads land in your phone. You walk into every conversation already half-sold.",
+      icon: Bot,
+      eyebrow: "Never miss a lead",
+      t: "24/7 AI Sales Assistant",
+      d: "Instant replies to every inquiry. Answers questions, qualifies buyers, collects budget and preferences.",
+    },
+    {
+      icon: Database,
+      eyebrow: "Own your pipeline",
+      t: "Private CRM",
+      d: "Every conversation, lead and appointment in one place — from inquiry to closing. Your data always belongs to you.",
+    },
+    {
+      icon: CalendarCheck,
+      eyebrow: "Show, don't chase",
+      t: "AI Appointment Setting",
+      d: "Once a buyer is qualified, BaMo books the appointment — so you spend more time showing properties.",
+    },
+    {
+      icon: ListChecks,
+      eyebrow: "Always organized",
+      t: "AI Lead Management",
+      d: "BaMo prioritizes your hottest prospects, tracks every conversation, sends follow-ups and reminds you when it's time to act.",
+    },
+    {
+      icon: BarChart3,
+      eyebrow: "See the results",
+      t: "Performance Reports",
+      d: "A monthly picture of what your growth team delivered: leads, appointments booked, ad performance and response rates.",
     },
   ];
   return (
-    <Section id="how" className="py-20 sm:py-28 bg-secondary/40 rounded-[2rem]">
+    <Section id="included" className="py-20 sm:py-28 bg-secondary/40 rounded-[2rem]">
       <motion.div
         initial="hidden"
         whileInView="show"
@@ -280,13 +336,176 @@ function HowItWorks() {
         className="max-w-2xl"
       >
         <p className="text-sm font-semibold uppercase tracking-wider text-[color:var(--brand-orange)]">
-          How BayMo works
+          Everything included
         </p>
         <h2 className="mt-3 font-display text-3xl font-extrabold sm:text-4xl">
-          A four-step machine you don't have to touch.
+          Everything you need to <span className="text-gradient-brand">grow.</span>
+        </h2>
+        <p className="mt-4 text-lg text-muted-foreground">
+          One service. No freelancers to manage, no software to stitch together — every
+          outcome below is handled for you.
+        </p>
+      </motion.div>
+      <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        {items.map((it, i) => (
+          <motion.div
+            key={it.t}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: "-60px" }}
+            variants={fadeUp}
+            transition={{ delay: (i % 3) * 0.06 }}
+            className="rounded-2xl border border-border bg-card p-6"
+          >
+            <div className="flex items-center justify-between">
+              <div className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-[color:var(--brand-navy)] text-white">
+                <it.icon className="h-5 w-5" />
+              </div>
+              <span className="text-[10px] font-bold uppercase tracking-wider text-[color:var(--brand-red)]">
+                {it.eyebrow}
+              </span>
+            </div>
+            <h3 className="mt-5 font-display text-lg font-bold">{it.t}</h3>
+            <p className="mt-2 text-sm text-muted-foreground">{it.d}</p>
+          </motion.div>
+        ))}
+      </div>
+    </Section>
+  );
+}
+
+function Replaces() {
+  const replaced = [
+    "Facebook Ads Specialist",
+    "Graphic Designer",
+    "Video Editor",
+    "Website Developer",
+    "CRM Software",
+    "Appointment Setter",
+    "VA for Messenger",
+  ];
+  const costs = [
+    { role: "Website Developer", price: "₱20,000+", note: "setup" },
+    { role: "Facebook Ads Manager", price: "₱15,000", note: "/month" },
+    { role: "Video Editor", price: "₱8,000", note: "/month" },
+    { role: "Graphic Designer", price: "₱8,000", note: "/month" },
+    { role: "Virtual Assistant", price: "₱20,000", note: "/month" },
+    { role: "CRM Software", price: "₱2,000", note: "/month" },
+    { role: "Appointment Setter", price: "₱20,000", note: "/month" },
+  ];
+  return (
+    <Section className="py-20 sm:py-28">
+      <div className="grid gap-10 lg:grid-cols-2">
+        <motion.div
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: "-60px" }}
+          variants={fadeUp}
+          className="rounded-2xl border border-border bg-card p-7"
+        >
+          <p className="text-sm font-semibold uppercase tracking-wider text-[color:var(--brand-red)]">
+            Replaces
+          </p>
+          <h3 className="mt-3 font-display text-2xl font-extrabold">
+            What you don't need anymore.
+          </h3>
+          <p className="mt-2 text-sm text-muted-foreground">
+            BaMo replaces all of these — and gets them working together.
+          </p>
+          <ul className="mt-6 space-y-2">
+            {replaced.map((r) => (
+              <li
+                key={r}
+                className="flex items-center gap-3 rounded-xl border border-border bg-background px-4 py-3 text-sm"
+              >
+                <X className="h-4 w-4 text-[color:var(--brand-red)]" />
+                <span className="line-through decoration-[color:var(--brand-red)]/60 text-muted-foreground">
+                  {r}
+                </span>
+              </li>
+            ))}
+          </ul>
+          <p className="mt-6 text-sm font-semibold">One service replaces them all.</p>
+        </motion.div>
+
+        <motion.div
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: "-60px" }}
+          variants={fadeUp}
+          className="rounded-2xl bg-[color:var(--brand-navy)] p-7 text-white shadow-elegant"
+        >
+          <p className="text-sm font-semibold uppercase tracking-wider text-[color:var(--brand-orange)]">
+            The math
+          </p>
+          <h3 className="mt-3 font-display text-2xl font-extrabold">
+            What it would cost to do this separately.
+          </h3>
+          <p className="mt-2 text-sm text-white/70">
+            Hiring each role on its own adds up fast.
+          </p>
+          <ul className="mt-6 divide-y divide-white/10">
+            {costs.map((c) => (
+              <li key={c.role} className="flex items-center justify-between py-3 text-sm">
+                <span className="text-white/80">{c.role}</span>
+                <span className="font-semibold">
+                  {c.price}
+                  <span className="text-white/50 font-normal">{c.note}</span>
+                </span>
+              </li>
+            ))}
+            <li className="flex items-center justify-between py-4">
+              <span className="font-display font-bold">Total</span>
+              <span className="font-display text-xl font-extrabold text-[color:var(--brand-orange)]">
+                Over ₱70,000/mo
+              </span>
+            </li>
+          </ul>
+          <p className="mt-4 text-xs text-white/50">
+            Figures are estimated typical Philippine market rates for hiring each role
+            separately.
+          </p>
+        </motion.div>
+      </div>
+    </Section>
+  );
+}
+
+function HowItWorks() {
+  const steps = [
+    {
+      n: "01",
+      t: "You onboard",
+      d: "A short setup call. We connect your pages, listings and lead sources.",
+    },
+    {
+      n: "02",
+      t: "BaMo runs your growth 24/7",
+      d: "Website, ads, content, instant replies, follow-up and booking — all handled.",
+    },
+    {
+      n: "03",
+      t: "You step in to close",
+      d: "Walk into warm, pre-qualified appointments that are already booked.",
+    },
+  ];
+  return (
+    <Section id="how" className="py-20 sm:py-28">
+      <motion.div
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, margin: "-80px" }}
+        variants={fadeUp}
+        className="max-w-2xl"
+      >
+        <p className="text-sm font-semibold uppercase tracking-wider text-[color:var(--brand-orange)]">
+          How it works
+        </p>
+        <h2 className="mt-3 font-display text-3xl font-extrabold sm:text-4xl">
+          Onboard once. BaMo handles the rest.
         </h2>
       </motion.div>
-      <div className="mt-12 grid gap-5 md:grid-cols-2">
+      <div className="mt-12 grid gap-5 md:grid-cols-3">
         {steps.map((s, i) => (
           <motion.div
             key={s.n}
@@ -295,92 +514,64 @@ function HowItWorks() {
             viewport={{ once: true, margin: "-60px" }}
             variants={fadeUp}
             transition={{ delay: i * 0.08 }}
-            className="group relative overflow-hidden rounded-2xl border border-border bg-card p-7"
+            className="relative overflow-hidden rounded-2xl border border-border bg-card p-7"
           >
-            <div className="flex items-start justify-between">
-              <span className="font-display text-5xl font-extrabold text-gradient-brand">{s.n}</span>
-              <div className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-[color:var(--brand-navy)] text-white">
-                <s.icon className="h-5 w-5" />
-              </div>
-            </div>
-            <h3 className="mt-5 font-display text-xl font-bold">{s.t}</h3>
+            <span className="font-display text-6xl font-extrabold text-gradient-brand">
+              {s.n}
+            </span>
+            <h3 className="mt-4 font-display text-xl font-bold">{s.t}</h3>
             <p className="mt-2 text-sm text-muted-foreground">{s.d}</p>
           </motion.div>
         ))}
       </div>
-    </Section>
-  );
-}
 
-function Results() {
-  const stats = [
-    { k: "3.2×", v: "more booked appointments per ad dollar" },
-    { k: "<5 min", v: "average response time to new leads" },
-    { k: "5", v: "agent partners onboarded each month — by design" },
-  ];
-  return (
-    <Section id="results" className="py-20 sm:py-28">
       <motion.div
         initial="hidden"
         whileInView="show"
-        viewport={{ once: true, margin: "-80px" }}
+        viewport={{ once: true, margin: "-60px" }}
         variants={fadeUp}
-        className="grid gap-3 sm:grid-cols-3"
+        className="mt-14 rounded-2xl border border-border bg-card p-7"
       >
-        {stats.map((s) => (
-          <div key={s.k} className="rounded-2xl border border-border bg-card p-7 text-center">
-            <div className="font-display text-5xl font-extrabold text-gradient-brand">{s.k}</div>
-            <div className="mt-2 text-sm text-muted-foreground">{s.v}</div>
-          </div>
-        ))}
+        <p className="text-sm font-semibold uppercase tracking-wider text-[color:var(--brand-red)]">
+          Why BaMo is different
+        </p>
+        <h3 className="mt-3 font-display text-2xl font-extrabold">
+          Most platforms stop after generating a lead. BaMo doesn't.
+        </h3>
+        <ol className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {[
+            "Generate the lead",
+            "Respond instantly, 24/7",
+            "Qualify the buyer",
+            "Follow up automatically",
+            "Book the appointment",
+            "Track everything in your CRM",
+          ].map((s, i) => (
+            <li
+              key={s}
+              className="flex items-center gap-3 rounded-xl bg-secondary/60 px-4 py-3 text-sm font-medium"
+            >
+              <span className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-gradient-brand text-xs font-bold text-white">
+                {i + 1}
+              </span>
+              {s}
+            </li>
+          ))}
+        </ol>
+        <p className="mt-5 text-sm text-muted-foreground">
+          You simply <span className="font-semibold text-foreground">show the property and
+          close the deal.</span>
+        </p>
       </motion.div>
-
-      <div className="mt-12 grid gap-5 md:grid-cols-2">
-        {[
-          {
-            q: "I closed three deals in my first 60 days with BayMo. I haven't cold-called once since.",
-            a: "Devon M.",
-            r: "Broker, Phoenix AZ",
-          },
-          {
-            q: "It's like having a marketing team, an SDR and a coordinator — for less than one hire.",
-            a: "Sasha L.",
-            r: "Top-producing agent, Austin TX",
-          },
-        ].map((t) => (
-          <motion.figure
-            key={t.a}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, margin: "-60px" }}
-            variants={fadeUp}
-            className="rounded-2xl border border-border bg-card p-7 shadow-sm"
-          >
-            <blockquote className="font-display text-xl font-semibold leading-snug text-foreground">
-              "{t.q}"
-            </blockquote>
-            <figcaption className="mt-4 text-sm text-muted-foreground">
-              <span className="font-semibold text-foreground">{t.a}</span> · {t.r}
-            </figcaption>
-          </motion.figure>
-        ))}
-      </div>
     </Section>
   );
 }
 
-function Promise() {
-  const points = [
-    "A dedicated growth manager who knows your market",
-    "All ads, copy, landing pages and CRM workflows built for you",
-    "24/7 lead response — leads never sit cold",
-    "Weekly reporting on appointments, not vanity metrics",
-    "Month-to-month. No annual contracts.",
-  ];
+function BuiltForPH() {
   return (
     <Section className="py-20 sm:py-28">
       <div className="overflow-hidden rounded-[2rem] bg-[color:var(--brand-navy)] p-8 sm:p-14 text-white shadow-elegant">
-        <div className="grid items-center gap-10 lg:grid-cols-[1.1fr_1fr]">
+        <div className="grid items-center gap-10 lg:grid-cols-[1fr_1.1fr]">
           <motion.div
             initial="hidden"
             whileInView="show"
@@ -388,55 +579,66 @@ function Promise() {
             variants={fadeUp}
           >
             <p className="text-sm font-semibold uppercase tracking-wider text-[color:var(--brand-orange)]">
-              What's included
+              Built for Philippine Real Estate
             </p>
             <h2 className="mt-3 font-display text-3xl font-extrabold sm:text-4xl">
-              Everything an in-house marketing team would do — without hiring one.
+              Para sa bawat <span className="text-[color:var(--brand-orange)]">Ahenteng
+              Pilipino.</span>
             </h2>
-            <p className="mt-4 max-w-lg text-white/70">
-              We only take 5 new agent or broker partners each month so every account gets
-              senior attention. If we're not a fit, we'll tell you on the first call.
+            <p className="mt-4 text-white/70">
+              Not a generic CRM or a foreign marketing agency. BaMo was built exclusively
+              for Philippine real estate professionals — agents, brokers, teams and
+              developers — combining marketing, AI, automation and lead management into
+              one complete growth system.
+            </p>
+            <p className="mt-3 text-sm font-semibold text-white/90">
+              Because we deserve better.
             </p>
           </motion.div>
-          <ul className="space-y-3">
-            {points.map((p) => (
-              <li key={p} className="flex items-start gap-3 rounded-xl bg-white/5 p-4">
-                <ShieldCheck className="mt-0.5 h-5 w-5 flex-shrink-0 text-[color:var(--brand-orange)]" />
-                <span className="text-sm text-white/90">{p}</span>
+
+          <motion.ul
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true }}
+            variants={fadeUp}
+            className="grid gap-3 sm:grid-cols-2"
+          >
+            {[
+              { t: "Leads Generated", d: "New inquiries from your campaigns" },
+              { t: "Appointments Booked", d: "Qualified buyers on your calendar" },
+              { t: "Response Time", d: "How fast every lead gets a reply" },
+              { t: "Qualified Leads", d: "Buyers with budget and intent" },
+              { t: "Cost Per Lead", d: "What each inquiry actually costs" },
+              { t: "Sales Pipeline", d: "Deals moving toward closing" },
+            ].map((m) => (
+              <li
+                key={m.t}
+                className="rounded-xl bg-white/5 p-4 ring-1 ring-white/10"
+              >
+                <div className="font-display text-sm font-bold text-[color:var(--brand-orange)]">
+                  {m.t}
+                </div>
+                <div className="mt-1 text-xs text-white/70">{m.d}</div>
               </li>
             ))}
-          </ul>
+          </motion.ul>
         </div>
       </div>
     </Section>
   );
 }
 
-function FAQ() {
-  const items = [
-    {
-      q: "How is BayMo different from a marketing agency?",
-      a: "Agencies hand you leads and walk away. BayMo runs the entire follow-up and qualification process — you only get the leads that are ready to talk to you, with the appointment already on your calendar.",
-    },
-    {
-      q: "Why only 5 spots a month?",
-      a: "Each partner gets a dedicated growth manager, custom creative, and live follow-up. To keep that quality bar, we cap onboarding at 5 agents or brokers per month — full stop.",
-    },
-    {
-      q: "Do I need to run my own ads or CRM?",
-      a: "No. We build, host, and operate the entire stack under your brand. You keep the data and the relationships; we handle the work.",
-    },
-    {
-      q: "What's the commitment?",
-      a: "Month-to-month after a one-time setup. Stay because it works, not because you signed a 12-month contract.",
-    },
-    {
-      q: "How fast will I see results?",
-      a: "Campaigns are live within 7 days. Most partners see their first qualified appointment in the first two weeks.",
-    },
+function Founding() {
+  const perks = [
+    "Complete done-for-you setup",
+    "Personalized onboarding",
+    "Priority support",
+    "Direct access to the founders",
+    "Founding-client pricing",
+    "Early access + lifetime adopter benefits",
   ];
   return (
-    <Section id="faq" className="py-20 sm:py-28">
+    <Section id="founding" className="py-20 sm:py-28">
       <motion.div
         initial="hidden"
         whileInView="show"
@@ -445,29 +647,56 @@ function FAQ() {
         className="max-w-2xl"
       >
         <p className="text-sm font-semibold uppercase tracking-wider text-[color:var(--brand-red)]">
-          FAQ
+          Founding Client Program
         </p>
         <h2 className="mt-3 font-display text-3xl font-extrabold sm:text-4xl">
-          The questions every smart agent asks first.
+          Become one of our first <span className="text-gradient-brand">5 founding
+          clients.</span>
         </h2>
+        <p className="mt-4 text-lg text-muted-foreground">
+          We're opening BaMo to only 5 founding clients this month — across CALABARZON
+          and nationwide. It's a hands-on, done-for-you service, so we keep each cohort
+          small.
+        </p>
       </motion.div>
-      <div className="mt-10">
-        <Accordion type="single" collapsible className="w-full">
-          {items.map((it, i) => (
-            <AccordionItem key={i} value={`item-${i}`} className="border-border">
-              <AccordionTrigger className="text-left font-display text-lg font-semibold hover:no-underline">
-                {it.q}
-              </AccordionTrigger>
-              <AccordionContent className="text-muted-foreground">{it.a}</AccordionContent>
-            </AccordionItem>
-          ))}
-        </Accordion>
+      <div className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        {perks.map((p) => (
+          <div
+            key={p}
+            className="flex items-start gap-3 rounded-xl border border-border bg-card p-4"
+          >
+            <ShieldCheck className="mt-0.5 h-5 w-5 flex-shrink-0 text-[color:var(--brand-orange)]" />
+            <span className="text-sm">{p}</span>
+          </div>
+        ))}
       </div>
+      <p className="mt-6 max-w-2xl text-sm text-muted-foreground">
+        Your feedback shapes BaMo's future while your business runs on a dedicated AI
+        growth team.
+      </p>
     </Section>
   );
 }
 
+// KEEP — Reserve my spot CTA + apply form (stubbed handler)
+const LEAD_INTAKE_WEBHOOK_URL = "";
+
 function CTA() {
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const data = Object.fromEntries(new FormData(form).entries());
+    if (LEAD_INTAKE_WEBHOOK_URL) {
+      fetch(LEAD_INTAKE_WEBHOOK_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      }).catch(() => {});
+    }
+    form.reset();
+    alert("Thanks! We'll be in touch within 1 business day.");
+  };
+
   return (
     <Section id="apply" className="py-20 sm:py-28">
       <motion.div
@@ -475,37 +704,54 @@ function CTA() {
         whileInView="show"
         viewport={{ once: true }}
         variants={fadeUp}
-        className="relative overflow-hidden rounded-[2rem] border border-border bg-card p-8 text-center shadow-elegant sm:p-14"
+        className="relative overflow-hidden rounded-[2rem] border border-border bg-card p-8 shadow-elegant sm:p-14"
       >
         <div
           aria-hidden
           className="absolute inset-x-0 -top-32 h-64 bg-gradient-brand opacity-20 blur-3xl"
         />
-        <div className="relative">
-          <span className="inline-flex items-center gap-2 rounded-full border border-border bg-background px-3 py-1 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-            <Sparkles className="h-3.5 w-3.5 text-[color:var(--brand-orange)]" />
-            Spots remaining this month: 3 of 5
-          </span>
-          <h2 className="mx-auto mt-5 max-w-3xl font-display text-3xl font-extrabold leading-tight sm:text-5xl">
-            Stop chasing leads. <span className="text-gradient-brand">Start closing them.</span>
-          </h2>
-          <p className="mx-auto mt-5 max-w-xl text-lg text-muted-foreground">
-            Apply to onboard with BayMo. 15-minute fit call. If we're not the right partner
-            for your market, we'll point you to who is.
-          </p>
-          <div className="mt-8 flex flex-wrap justify-center gap-4">
-            <a href="#apply">
+        <div className="relative grid gap-10 lg:grid-cols-[1fr_1fr] lg:items-center">
+          <div>
+            <span className="inline-flex items-center gap-2 rounded-full border border-border bg-background px-3 py-1 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+              <Sparkles className="h-3.5 w-3.5 text-[color:var(--brand-orange)]" />
+              Only 5 founding spots
+            </span>
+            <h2 className="mt-5 font-display text-3xl font-extrabold leading-tight sm:text-5xl">
+              Ready to grow your real estate business?{" "}
+              <span className="text-gradient-brand">Reserve your spot.</span>
+            </h2>
+            <p className="mt-5 max-w-lg text-lg text-muted-foreground">
+              Let BaMo handle your website, marketing, ads, content, follow-up and
+              appointments — so you can focus on closing more deals.
+            </p>
+            <p className="mt-4 text-sm font-semibold text-foreground">
+              Marketing. AI. Follow-up. Appointments. All handled for you.
+            </p>
+          </div>
+
+          <form
+            onSubmit={onSubmit}
+            className="rounded-2xl border border-border bg-background p-6 shadow-sm"
+          >
+            <p className="font-display text-lg font-bold">Apply to become a founding client</p>
+            <div className="mt-4 grid gap-3">
+              <Input name="fullName" required placeholder="Full name" className="h-11" />
+              <Input name="email" type="email" required placeholder="Email" className="h-11" />
+              <Input name="phone" required placeholder="Phone" className="h-11" />
+              <Input name="company" placeholder="Brokerage / company" className="h-11" />
+              <Input name="city" placeholder="City / area" className="h-11" />
               <Button
+                type="submit"
                 size="lg"
-                className="bg-gradient-brand text-white hover:opacity-95 shadow-glow h-12 rounded-full px-8 text-base"
+                className="mt-2 h-12 w-full rounded-full bg-gradient-brand text-white shadow-glow hover:opacity-95"
               >
                 Reserve my spot <ArrowRight className="ml-1 h-4 w-4" />
               </Button>
-            </a>
-          </div>
-          <p className="mt-4 text-xs text-muted-foreground">
-            Real estate agents & brokers only · No spam · Reply within 1 business day
-          </p>
+              <p className="text-center text-xs text-muted-foreground">
+                Real estate agents & brokers only · We reply within 1 business day
+              </p>
+            </div>
+          </form>
         </div>
       </motion.div>
     </Section>
@@ -519,8 +765,9 @@ function Footer() {
         <div className="flex items-center gap-2">
           <img src={logo.url} alt="BayMo" className="h-7 w-auto" />
         </div>
-        <p className="text-xs text-muted-foreground">
-          © {new Date().getFullYear()} BayMo. Real estate made simple.
+        <p className="flex items-center gap-2 text-xs text-muted-foreground">
+          <MessageSquare className="h-3.5 w-3.5" />
+          © {new Date().getFullYear()} BayMo · Built for Philippine real estate.
         </p>
       </div>
     </footer>
@@ -534,10 +781,11 @@ function Landing() {
       <main>
         <Hero />
         <Problem />
+        <Included />
+        <Replaces />
         <HowItWorks />
-        <Results />
-        <Promise />
-        <FAQ />
+        <BuiltForPH />
+        <Founding />
         <CTA />
       </main>
       <Footer />
