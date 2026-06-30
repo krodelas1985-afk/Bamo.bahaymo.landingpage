@@ -30,19 +30,6 @@ import heroVideo from "@/assets/powered-by-ai.mp4.asset.json";
 function HeroVideo() {
   return (
     <section id="top" className="relative overflow-hidden bg-[color:var(--brand-navy)]">
-      {/* Blurred background video */}
-      <video
-        src={heroVideo.url}
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="metadata"
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 h-full w-full object-cover scale-125 blur-2xl opacity-60 z-0"
-      />
-      <div className="absolute inset-0 bg-[color:var(--brand-navy)]/30 z-0" aria-hidden />
-
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
