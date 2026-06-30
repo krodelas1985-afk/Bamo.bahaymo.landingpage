@@ -34,7 +34,7 @@ function HeroVideo() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8, ease: "easeOut" as const }}
-        className="relative z-10 w-full h-[60vh] sm:h-[80vh] lg:h-screen"
+        className="relative z-10 w-full h-screen"
       >
         <video
           src={heroVideo.url}
