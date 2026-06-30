@@ -539,10 +539,17 @@ function HowItWorks() {
         variants={fadeUp}
         className="mt-12"
       >
+        {/* Mobile image — shown only below sm (< 640px) */}
+        <img
+          src="/images/how-it-works-mobile.png"
+          alt="How BaMo works"
+          className="block sm:hidden w-full h-auto rounded-2xl object-contain"
+        />
+        {/* Desktop/tablet image — shown sm and above */}
         <img
           src="/images/how-it-works.png"
           alt="How BaMo works"
-          className="w-full h-auto rounded-2xl object-contain"
+          className="hidden sm:block w-full h-auto rounded-2xl object-contain"
         />
       </motion.div>
     </Section>
