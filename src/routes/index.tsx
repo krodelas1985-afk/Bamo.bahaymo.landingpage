@@ -43,25 +43,6 @@ function HeroVideo() {
       />
       <div className="absolute inset-0 bg-[color:var(--brand-navy)]/30 z-0" aria-hidden />
 
-      <div className="relative z-10 mx-auto flex w-full max-w-6xl items-center justify-center px-5 sm:px-8 lg:px-12 py-6 sm:py-10 min-h-[60vh] sm:min-h-[80vh] lg:min-h-screen">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" as const }}
-          className="relative overflow-hidden rounded-3xl border border-white/10 shadow-elegant"
-        >
-          <video
-            src={heroVideo.url}
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="metadata"
-            className="block max-h-[calc(100vh-3rem)] sm:max-h-[calc(100vh-5rem)] w-auto max-w-full"
-            aria-label="Powered by AI, Led by People"
-          />
-        </motion.div>
-      </div>
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
