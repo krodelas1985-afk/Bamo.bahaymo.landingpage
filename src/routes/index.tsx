@@ -24,7 +24,64 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import logo from "@/assets/baymo-logo.png";
+import logo from "@/assets/baymo-logo.png.asset.json";
+import heroVideo from "@/assets/powered-by-ai.mp4.asset.json";
+
+function HeroVideo() {
+  return (
+    <section id="top" className="relative overflow-hidden bg-[color:var(--brand-navy)]">
+      {/* Blurred background video */}
+      <video
+        src={heroVideo.url}
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 h-full w-full object-cover scale-125 blur-2xl opacity-60 z-0"
+      />
+      <div className="absolute inset-0 bg-[color:var(--brand-navy)]/30 z-0" aria-hidden />
+
+      <div className="relative z-10 mx-auto flex w-full max-w-6xl items-center justify-center px-5 sm:px-8 lg:px-12 py-6 sm:py-10 min-h-[60vh] sm:min-h-[80vh] lg:min-h-screen">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" as const }}
+          className="relative overflow-hidden rounded-3xl border border-white/10 shadow-elegant"
+        >
+          <video
+            src={heroVideo.url}
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            className="block max-h-[calc(100vh-3rem)] sm:max-h-[calc(100vh-5rem)] w-auto max-w-full"
+            aria-label="Powered by AI, Led by People"
+          />
+        </motion.div>
+      </div>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.8, ease: "easeOut" as const }}
+        className="relative z-10 w-full h-[60vh] sm:h-[80vh] lg:h-screen"
+      >
+        <video
+          src={heroVideo.url}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          className="block h-full w-full object-cover"
+          aria-label="Powered by AI, Led by People"
+        />
+      </motion.div>
+    </section>
+  );
+}
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -42,9 +99,9 @@ export const Route = createFileRoute("/")({
           "Website, ads, content, follow-up, CRM and appointment setting — done for you. Built for Philippine real estate.",
       },
       { property: "og:type", content: "website" },
-      { property: "og:image", content: logo },
+      { property: "og:image", content: logo.url },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:image", content: logo },
+      { name: "twitter:image", content: logo.url },
     ],
   }),
   component: Landing,
@@ -76,7 +133,7 @@ function Nav() {
     <header className="sticky top-0 z-40 border-b border-border/60 bg-background/80 backdrop-blur-md">
       <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-5 sm:px-8 lg:px-12">
         <a href="#top" className="flex items-center gap-2" aria-label="BayMo home">
-          <img src={logo} alt="BayMo" className="h-8 w-auto" />
+          <img src={logo.url} alt="BayMo" className="h-8 w-auto" />
         </a>
         <nav className="hidden items-center gap-8 text-sm font-medium text-muted-foreground md:flex">
           <a href="#included" className="hover:text-foreground">What's included</a>
@@ -95,7 +152,7 @@ function Nav() {
 
 function Hero() {
   return (
-    <Section id="top" className="bg-hero pt-14 pb-20 sm:pt-20 sm:pb-28">
+    <Section id="hero" className="bg-hero pt-14 pb-20 sm:pt-20 sm:pb-28">
       <div className="grid items-center gap-12 lg:grid-cols-[1.05fr_1fr]">
         <motion.div initial="hidden" animate="show" variants={fadeUp}>
           <span className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
@@ -213,7 +270,6 @@ function Hero() {
   );
 }
 
-// KEEP — The Honest Truth section, rewritten lightly for new positioning
 function Problem() {
   const items = [
     {
@@ -234,7 +290,6 @@ function Problem() {
   ];
   return (
     <Section className="py-20 sm:py-28 bg-[color:var(--tint-cream)] rounded-[2rem]">
-
       <motion.div
         initial="hidden"
         whileInView="show"
@@ -686,7 +741,6 @@ function Founding() {
   );
 }
 
-// KEEP — Reserve my spot CTA + apply form (stubbed handler)
 const LEAD_INTAKE_WEBHOOK_URL = "";
 
 function CTA() {
@@ -771,7 +825,7 @@ function Footer() {
     <footer className="border-t border-border py-10">
       <div className="mx-auto flex w-full max-w-6xl flex-col items-center justify-between gap-4 px-5 sm:flex-row sm:px-8 lg:px-12">
         <div className="flex items-center gap-2">
-          <img src={logo} alt="BayMo" className="h-7 w-auto" />
+          <img src={logo.url} alt="BayMo" className="h-7 w-auto" />
         </div>
         <p className="flex items-center gap-2 text-xs text-muted-foreground">
           <MessageSquare className="h-3.5 w-3.5" />
@@ -787,6 +841,7 @@ function Landing() {
     <div className="min-h-screen bg-background text-foreground">
       <Nav />
       <main>
+        <HeroVideo />
         <Hero />
         <Problem />
         <Included />
