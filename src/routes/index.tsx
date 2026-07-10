@@ -328,8 +328,7 @@ function AgentPain() {
         </h2>
         <p className="mt-4 text-lg text-muted-foreground">
           Every day, thousands of agents work hard — replying to inquiries, chasing
-          follow-ups, juggling paperwork — and end up spending more time managing work
-          than on the moments that matter most.
+          follow-ups, juggling paperwork — and end up spending more time managing work —
         </p>
       </motion.div>
       <motion.div
