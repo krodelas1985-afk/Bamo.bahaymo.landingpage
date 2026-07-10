@@ -313,6 +313,42 @@ function Problem() {
   );
 }
 
+function AgentPain() {
+  return (
+    <Section className="py-20 sm:py-28">
+      <motion.div
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, margin: "-80px" }}
+        variants={fadeUp}
+        className="max-w-2xl"
+      >
+        <h2 className="font-display text-3xl font-extrabold sm:text-4xl">
+          Being a real estate agent shouldn&apos;t feel like this.
+        </h2>
+        <p className="mt-4 text-lg text-muted-foreground">
+          Every day, thousands of agents work hard — replying to inquiries, chasing
+          follow-ups, juggling paperwork — and end up spending more time managing work
+          than on the moments that matter most.
+        </p>
+      </motion.div>
+      <motion.div
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, margin: "-60px" }}
+        variants={fadeUp}
+        className="mt-12"
+      >
+        <img
+          src="/images/agent-pain.png"
+          alt="An exhausted real estate agent asleep on the couch after a long day, while her daughter tries to get her attention — time that should be spent on what matters most"
+          className="w-full h-auto rounded-2xl object-cover shadow-sm"
+        />
+      </motion.div>
+    </Section>
+  );
+}
+
 function Included() {
   const items = [
     {
@@ -770,6 +806,7 @@ function Landing() {
         <HeroVideo />
         <Hero />
         <Problem />
+        <AgentPain />
         <Included />
         <Replaces />
         <HowItWorks />
