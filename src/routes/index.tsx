@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import {
   CheckCircle2,
@@ -713,6 +714,8 @@ const LEAD_INTAKE_WEBHOOK_URL =
   "https://n8n-bahaymo.onrender.com/webhook/bamo-landing-lead";
 
 function CTA() {
+  const [submitted, setSubmitted] = useState(false);
+
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
@@ -725,7 +728,7 @@ function CTA() {
       }).catch(() => {});
     }
     form.reset();
-    alert("Thanks! We'll be in touch within 1 business day.");
+    setSubmitted(true);
   };
 
   return (
@@ -760,29 +763,44 @@ function CTA() {
             </p>
           </div>
 
-          <form
-            onSubmit={onSubmit}
-            className="rounded-2xl border border-border bg-background p-6 shadow-sm"
-          >
-            <p className="font-display text-lg font-bold">Apply to become a founding client</p>
-            <div className="mt-4 grid gap-3">
-              <Input name="fullName" required placeholder="Full name" className="h-11" />
-              <Input name="email" type="email" required placeholder="Email" className="h-11" />
-              <Input name="phone" required placeholder="Phone" className="h-11" />
-              <Input name="company" placeholder="Brokerage / company" className="h-11" />
-              <Input name="city" placeholder="City / area" className="h-11" />
-              <Button
-                type="submit"
-                size="lg"
-                className="mt-2 h-12 w-full rounded-full bg-gradient-brand text-white shadow-glow hover:opacity-95"
-              >
-                Reserve my spot <ArrowRight className="ml-1 h-4 w-4" />
-              </Button>
-              <p className="text-center text-xs text-muted-foreground">
-                Real estate agents & brokers only · We reply within 1 business day
+          {submitted ? (
+            <div className="flex flex-col items-center justify-center rounded-2xl border border-border bg-background p-8 text-center shadow-sm">
+              <div className="flex h-14 w-14 items-center justify-center rounded-full bg-[color:var(--brand-orange)]/10">
+                <CheckCircle2 className="h-8 w-8 text-[color:var(--brand-orange)]" />
+              </div>
+              <p className="mt-5 font-display text-xl font-bold">
+                Thank you for applying!
+              </p>
+              <p className="mt-3 max-w-sm text-muted-foreground">
+                Thanks for applying to be one of our founding clients. A BaMo team
+                member will reach out to you soon.
               </p>
             </div>
-          </form>
+          ) : (
+            <form
+              onSubmit={onSubmit}
+              className="rounded-2xl border border-border bg-background p-6 shadow-sm"
+            >
+              <p className="font-display text-lg font-bold">Apply to become a founding client</p>
+              <div className="mt-4 grid gap-3">
+                <Input name="fullName" required placeholder="Full name" className="h-11" />
+                <Input name="email" type="email" required placeholder="Email" className="h-11" />
+                <Input name="phone" required placeholder="Phone" className="h-11" />
+                <Input name="company" placeholder="Brokerage / company" className="h-11" />
+                <Input name="city" placeholder="City / area" className="h-11" />
+                <Button
+                  type="submit"
+                  size="lg"
+                  className="mt-2 h-12 w-full rounded-full bg-gradient-brand text-white shadow-glow hover:opacity-95"
+                >
+                  Reserve my spot <ArrowRight className="ml-1 h-4 w-4" />
+                </Button>
+                <p className="text-center text-xs text-muted-foreground">
+                  Real estate agents & brokers only · We reply within 1 business day
+                </p>
+              </div>
+            </form>
+          )}
         </div>
       </motion.div>
     </Section>
