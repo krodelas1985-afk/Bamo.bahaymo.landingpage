@@ -702,7 +702,8 @@ function Founding() {
   );
 }
 
-const LEAD_INTAKE_WEBHOOK_URL = "";
+const LEAD_INTAKE_WEBHOOK_URL =
+  "https://n8n-bahaymo.onrender.com/webhook/bamo-landing-lead";
 
 function CTA() {
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
