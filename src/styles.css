@@ -175,5 +175,10 @@
   .shadow-glow { box-shadow: var(--shadow-glow); }
 }
 
-html, body { font-family: 'Epilogue', system-ui, sans-serif; }
-h1, h2, h3, h4, .font-display { font-family: 'Urbanist', system-ui, sans-serif; letter-spacing: -0.02em; }
+html { scroll-behavior: smooth; }
+html, body { font-family: 'Poppins', system-ui, sans-serif; }
+h1, h2, h3, h4, .font-display { font-family: 'Plus Jakarta Sans', 'Poppins', system-ui, sans-serif; letter-spacing: -0.02em; }
+h1 { letter-spacing: -0.03em; }
+h1, h2, h3 { text-wrap: balance; }
+p { text-wrap: pretty; }
+.font-inter { font-family: 'Inter', system-ui, sans-serif; }

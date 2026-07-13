@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, MotionConfig, useScroll, useSpring } from "framer-motion";
 import {
   CheckCircle2,
   Clock,
@@ -101,6 +101,33 @@ const fadeUp = {
   show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" as const } },
 };
 
+const stagger = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.09, delayChildren: 0.05 } },
+};
+
+const item = {
+  hidden: { opacity: 0, y: 18 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" as const } },
+};
+
+const cardHover = {
+  y: -6,
+  transition: { type: "spring" as const, stiffness: 320, damping: 22 },
+};
+
+function ScrollProgress() {
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, { stiffness: 140, damping: 26, mass: 0.4 });
+  return (
+    <motion.div
+      aria-hidden
+      style={{ scaleX }}
+      className="fixed inset-x-0 top-0 z-50 h-[3px] origin-left bg-gradient-brand"
+    />
+  );
+}
+
 function Section({
   id,
   children,
@@ -125,9 +152,19 @@ function Nav() {
           <img src={logo.url} alt="BayMo" className="h-8 w-auto" />
         </a>
         <nav className="hidden items-center gap-8 text-sm font-medium text-muted-foreground md:flex">
-          <a href="#included" className="hover:text-foreground">What's included</a>
-          <a href="#how" className="hover:text-foreground">How it works</a>
-          <a href="#founding" className="hover:text-foreground">Founding clients</a>
+          {[
+            { href: "#included", label: "What's included" },
+            { href: "#how", label: "How it works" },
+            { href: "#founding", label: "Founding clients" },
+          ].map((l) => (
+            <a
+              key={l.href}
+              href={l.href}
+              className="relative transition-colors hover:text-foreground after:absolute after:-bottom-1 after:left-0 after:h-[2px] after:w-0 after:rounded-full after:bg-gradient-brand after:transition-all after:duration-300 hover:after:w-full"
+            >
+              {l.label}
+            </a>
+          ))}
         </nav>
         <a href="#apply">
           <Button className="bg-gradient-brand text-white hover:opacity-95 shadow-glow h-10 px-5 rounded-full">
@@ -143,32 +180,43 @@ function Hero() {
   return (
     <Section id="hero" className="bg-hero pt-14 pb-20 sm:pt-20 sm:pb-28">
       <div className="grid items-center gap-12 lg:grid-cols-[1.05fr_1fr]">
-        <motion.div initial="hidden" animate="show" variants={fadeUp}>
-          <span className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+        <motion.div initial="hidden" animate="show" variants={stagger}>
+          <motion.span
+            variants={item}
+            className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1 text-xs font-semibold uppercase tracking-wider text-muted-foreground"
+          >
             <Flag className="h-3.5 w-3.5 text-[color:var(--brand-orange)]" />
             Your done-for-you growth team · Philippines
-          </span>
-          <h1 className="mt-5 font-display text-4xl font-extrabold leading-[1.05] text-foreground sm:text-5xl lg:text-6xl">
+          </motion.span>
+          <motion.h1
+            variants={item}
+            className="mt-5 font-display text-4xl font-extrabold leading-[1.08] text-foreground sm:text-5xl lg:text-6xl"
+          >
             Your <span className="text-gradient-brand">AI Growth Team</span> for Real Estate.
-          </h1>
-          <p className="mt-5 max-w-xl text-lg text-muted-foreground">
+          </motion.h1>
+          <motion.p variants={item} className="mt-5 max-w-xl text-lg text-muted-foreground">
             We build your website, manage your marketing, respond to every lead 24/7, and
             book appointments — so you can focus on closing more sales.
-          </p>
-          <div className="mt-8 flex flex-wrap items-center gap-4">
+          </motion.p>
+          <motion.div variants={item} className="mt-8 flex flex-wrap items-center gap-4">
             <a href="#apply">
-              <Button
-                size="lg"
-                className="bg-gradient-brand text-white hover:opacity-95 shadow-glow h-12 rounded-full px-7 text-base"
-              >
-                Become a Founding Client <ArrowRight className="ml-1 h-4 w-4" />
-              </Button>
+              <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
+                <Button
+                  size="lg"
+                  className="bg-gradient-brand text-white hover:opacity-95 shadow-glow h-12 rounded-full px-7 text-base"
+                >
+                  Become a Founding Client <ArrowRight className="ml-1 h-4 w-4" />
+                </Button>
+              </motion.div>
             </a>
             <a href="#included" className="text-sm font-semibold text-foreground underline-offset-4 hover:underline">
               See everything included ↓
             </a>
-          </div>
-          <ul className="mt-8 grid gap-3 text-sm text-muted-foreground sm:grid-cols-2">
+          </motion.div>
+          <motion.ul
+            variants={stagger}
+            className="mt-8 grid gap-3 text-sm text-muted-foreground sm:grid-cols-2"
+          >
             {[
               "Professional Website",
               "Facebook Ads Managed",
@@ -177,12 +225,12 @@ function Hero() {
               "Private CRM",
               "AI Appointment Setting",
             ].map((t) => (
-              <li key={t} className="flex items-center gap-2">
+              <motion.li key={t} variants={item} className="flex items-center gap-2">
                 <CheckCircle2 className="h-4 w-4 text-[color:var(--brand-orange)]" />
                 {t}
-              </li>
+              </motion.li>
             ))}
-          </ul>
+          </motion.ul>
         </motion.div>
 
         <motion.div
@@ -192,7 +240,11 @@ function Hero() {
           className="relative"
         >
           <div className="absolute -inset-6 rounded-3xl bg-gradient-brand opacity-20 blur-2xl" aria-hidden />
-          <div className="relative rounded-3xl border border-border bg-card p-5 shadow-elegant">
+          <motion.div
+            animate={{ y: [0, -10, 0] }}
+            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" as const }}
+            className="relative rounded-3xl border border-border bg-card p-5 shadow-elegant"
+          >
             <div className="flex items-center justify-between border-b border-border pb-4">
               <div className="flex items-center gap-3">
                 <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-brand text-white font-display font-bold">
@@ -203,9 +255,14 @@ function Hero() {
                   <div className="text-xs text-muted-foreground">Your AI assistant · Today</div>
                 </div>
               </div>
-              <div className="rounded-full bg-[color:var(--brand-orange)]/10 px-3 py-1 text-xs font-semibold text-[color:var(--brand-red)]">
+              <motion.div
+                animate={{ opacity: [1, 0.6, 1] }}
+                transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" as const }}
+                className="flex items-center gap-1.5 rounded-full bg-[color:var(--brand-orange)]/10 px-3 py-1 text-xs font-semibold text-[color:var(--brand-red)]"
+              >
+                <span className="h-1.5 w-1.5 rounded-full bg-[color:var(--brand-red)]" />
                 Live
-              </div>
+              </motion.div>
             </div>
 
             <div className="mt-4 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
@@ -216,9 +273,12 @@ function Hero() {
                 { name: "Joanna R.", note: "Asked about 2BR in Sta. Rosa", tag: "Hot" },
                 { name: "Mark D.", note: "Replied to your Cavite ad", tag: "Warm" },
                 { name: "Liza P.", note: "Requested a price list", tag: "Warm" },
-              ].map((l) => (
-                <li
+              ].map((l, i) => (
+                <motion.li
                   key={l.name}
+                  initial={{ opacity: 0, x: 16 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.45 + i * 0.15, duration: 0.45, ease: "easeOut" as const }}
                   className="flex items-center justify-between rounded-xl border border-border bg-background px-4 py-3"
                 >
                   <div>
@@ -234,7 +294,7 @@ function Hero() {
                   >
                     {l.tag}
                   </span>
-                </li>
+                </motion.li>
               ))}
             </ul>
 
@@ -252,7 +312,7 @@ function Hero() {
               <Zap className="h-4 w-4 text-[color:var(--brand-orange)]" />
               Every inquiry replied to in under a minute.
             </div>
-          </div>
+          </motion.div>
         </motion.div>
       </div>
     </Section>
@@ -307,9 +367,10 @@ function Problem() {
             viewport={{ once: true, margin: "-60px" }}
             variants={fadeUp}
             transition={{ delay: i * 0.08 }}
-            className="rounded-2xl border border-border bg-card p-6 shadow-sm"
+            whileHover={cardHover}
+            className="group rounded-2xl border border-border bg-card p-6 shadow-sm transition-shadow hover:shadow-elegant"
           >
-            <div className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-brand text-white">
+            <div className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-brand text-white transition-transform duration-300 group-hover:-rotate-6 group-hover:scale-110">
               <it.icon className="h-5 w-5" />
             </div>
             <h3 className="mt-4 font-display text-xl font-bold">{it.t}</h3>
@@ -442,10 +503,11 @@ function Included() {
             viewport={{ once: true, margin: "-60px" }}
             variants={fadeUp}
             transition={{ delay: (i % 3) * 0.06 }}
-            className="rounded-2xl border border-border bg-card p-6"
+            whileHover={cardHover}
+            className="group rounded-2xl border border-border bg-card p-6 transition-shadow hover:shadow-elegant"
           >
             <div className="flex items-center justify-between">
-              <div className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-[color:var(--brand-navy)] text-white">
+              <div className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-[color:var(--brand-navy)] text-white transition-transform duration-300 group-hover:-rotate-6 group-hover:scale-110">
                 <it.icon className="h-5 w-5" />
               </div>
               <span className="text-[10px] font-bold uppercase tracking-wider text-[color:var(--brand-red)]">
@@ -500,16 +562,20 @@ function Replaces() {
             BaMo replaces all of these — and gets them working together.
           </p>
           <ul className="mt-6 space-y-2">
-            {replaced.map((r) => (
-              <li
+            {replaced.map((r, i) => (
+              <motion.li
                 key={r}
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ delay: i * 0.06, duration: 0.45, ease: "easeOut" as const }}
                 className="flex items-center gap-3 rounded-xl border border-border bg-background px-4 py-3 text-sm"
               >
                 <X className="h-4 w-4 text-[color:var(--brand-red)]" />
                 <span className="line-through decoration-[color:var(--brand-red)]/60 text-muted-foreground">
                   {r}
                 </span>
-              </li>
+              </motion.li>
             ))}
           </ul>
           <p className="mt-6 text-sm font-semibold">One service replaces them all.</p>
@@ -532,21 +598,34 @@ function Replaces() {
             Hiring each role on its own adds up fast.
           </p>
           <ul className="mt-6 divide-y divide-white/10">
-            {costs.map((c) => (
-              <li key={c.role} className="flex items-center justify-between py-3 text-sm">
+            {costs.map((c, i) => (
+              <motion.li
+                key={c.role}
+                initial={{ opacity: 0, x: 20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ delay: i * 0.06, duration: 0.45, ease: "easeOut" as const }}
+                className="flex items-center justify-between py-3 text-sm"
+              >
                 <span className="text-white/80">{c.role}</span>
-                <span className="font-semibold">
+                <span className="font-semibold tabular-nums">
                   {c.price}
                   <span className="text-white/50 font-normal">{c.note}</span>
                 </span>
-              </li>
+              </motion.li>
             ))}
-            <li className="flex items-center justify-between py-4">
+            <motion.li
+              initial={{ opacity: 0, scale: 0.92 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ delay: costs.length * 0.06 + 0.1, type: "spring" as const, stiffness: 260, damping: 18 }}
+              className="flex items-center justify-between py-4"
+            >
               <span className="font-display font-bold">Total</span>
-              <span className="font-display text-xl font-extrabold text-[color:var(--brand-orange)]">
+              <span className="font-display text-xl font-extrabold text-[color:var(--brand-orange)] tabular-nums">
                 Over ₱70,000/mo
               </span>
-            </li>
+            </motion.li>
           </ul>
           <p className="mt-4 text-xs text-white/50">
             Figures are estimated typical Philippine market rates for hiring each role
@@ -632,7 +711,7 @@ function BuiltForPH() {
             initial="hidden"
             whileInView="show"
             viewport={{ once: true }}
-            variants={fadeUp}
+            variants={stagger}
             className="grid gap-3 sm:grid-cols-2"
           >
             {[
@@ -643,15 +722,17 @@ function BuiltForPH() {
               { t: "Cost Per Lead", d: "What each inquiry actually costs" },
               { t: "Sales Pipeline", d: "Deals moving toward closing" },
             ].map((m) => (
-              <li
+              <motion.li
                 key={m.t}
-                className="rounded-xl bg-white/5 p-4 ring-1 ring-white/10"
+                variants={item}
+                whileHover={{ y: -3 }}
+                className="rounded-xl bg-white/5 p-4 ring-1 ring-white/10 transition-colors hover:bg-white/10"
               >
                 <div className="font-display text-sm font-bold text-[color:var(--brand-orange)]">
                   {m.t}
                 </div>
                 <div className="mt-1 text-xs text-white/70">{m.d}</div>
-              </li>
+              </motion.li>
             ))}
           </motion.ul>
         </div>
@@ -691,17 +772,25 @@ function Founding() {
           small.
         </p>
       </motion.div>
-      <div className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+      <motion.div
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, margin: "-60px" }}
+        variants={stagger}
+        className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-3"
+      >
         {perks.map((p) => (
-          <div
+          <motion.div
             key={p}
-            className="flex items-start gap-3 rounded-xl border border-border bg-card p-4"
+            variants={item}
+            whileHover={{ y: -3 }}
+            className="flex items-start gap-3 rounded-xl border border-border bg-card p-4 transition-shadow hover:shadow-sm"
           >
             <ShieldCheck className="mt-0.5 h-5 w-5 flex-shrink-0 text-[color:var(--brand-orange)]" />
             <span className="text-sm">{p}</span>
-          </div>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
       <p className="mt-6 max-w-2xl text-sm text-muted-foreground">
         Your feedback shapes BaMo's future while your business runs on a dedicated AI
         growth team.
@@ -764,10 +853,19 @@ function CTA() {
           </div>
 
           {submitted ? (
-            <div className="flex flex-col items-center justify-center rounded-2xl border border-border bg-background p-8 text-center shadow-sm">
-              <div className="flex h-14 w-14 items-center justify-center rounded-full bg-[color:var(--brand-orange)]/10">
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="flex flex-col items-center justify-center rounded-2xl border border-border bg-background p-8 text-center shadow-sm"
+            >
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ type: "spring" as const, stiffness: 260, damping: 16, delay: 0.15 }}
+                className="flex h-14 w-14 items-center justify-center rounded-full bg-[color:var(--brand-orange)]/10"
+              >
                 <CheckCircle2 className="h-8 w-8 text-[color:var(--brand-orange)]" />
-              </div>
+              </motion.div>
               <p className="mt-5 font-display text-xl font-bold">
                 Thank you for applying!
               </p>
@@ -775,7 +873,7 @@ function CTA() {
                 Thanks for applying to be one of our founding clients. A BaMo team
                 member will reach out to you soon.
               </p>
-            </div>
+            </motion.div>
           ) : (
             <form
               onSubmit={onSubmit}
@@ -788,13 +886,15 @@ function CTA() {
                 <Input name="phone" required placeholder="Phone" className="h-11" />
                 <Input name="company" placeholder="Brokerage / company" className="h-11" />
                 <Input name="city" placeholder="City / area" className="h-11" />
-                <Button
-                  type="submit"
-                  size="lg"
-                  className="mt-2 h-12 w-full rounded-full bg-gradient-brand text-white shadow-glow hover:opacity-95"
-                >
-                  Reserve my spot <ArrowRight className="ml-1 h-4 w-4" />
-                </Button>
+                <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="mt-2">
+                  <Button
+                    type="submit"
+                    size="lg"
+                    className="h-12 w-full rounded-full bg-gradient-brand text-white shadow-glow hover:opacity-95"
+                  >
+                    Reserve my spot <ArrowRight className="ml-1 h-4 w-4" />
+                  </Button>
+                </motion.div>
                 <p className="text-center text-xs text-muted-foreground">
                   Real estate agents & brokers only · We reply within 1 business day
                 </p>
@@ -825,21 +925,24 @@ function Footer() {
 
 function Landing() {
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      <Nav />
-      <main>
-        <HeroVideo />
-        <Hero />
-        <Problem />
-        <AgentPain />
-        <Included />
-        <Replaces />
-        <HowItWorks />
-        <BuiltForPH />
-        <Founding />
-        <CTA />
-      </main>
-      <Footer />
-    </div>
+    <MotionConfig reducedMotion="user">
+      <div className="min-h-screen bg-background text-foreground">
+        <ScrollProgress />
+        <Nav />
+        <main>
+          <HeroVideo />
+          <Hero />
+          <Problem />
+          <AgentPain />
+          <Included />
+          <Replaces />
+          <HowItWorks />
+          <BuiltForPH />
+          <Founding />
+          <CTA />
+        </main>
+        <Footer />
+      </div>
+    </MotionConfig>
   );
 }
