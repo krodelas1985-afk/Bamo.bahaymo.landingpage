@@ -565,6 +565,21 @@ function Visibility() {
               </motion.li>
             ))}
           </motion.ul>
+          <motion.div
+            {...inView}
+            variants={fadeUp}
+            className="mt-6 rounded-2xl border-l-4 border-[color:var(--brand-orange)] bg-card p-5 shadow-sm"
+          >
+            <h3 className="font-display text-lg font-bold">Know where your attention is needed.</h3>
+            <p className="mt-2 text-sm text-muted-foreground">
+              Which agents need support? Which buyers are waiting? Where are opportunities getting
+              stuck? See the gaps early, rebalance assignments, and help your team take the next
+              step.
+            </p>
+            <p className="mt-3 text-sm font-semibold text-[color:var(--brand-navy)]">
+              Less chasing updates. More moving sales forward.
+            </p>
+          </motion.div>
         </div>
       </div>
     </Section>
