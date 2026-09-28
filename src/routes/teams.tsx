@@ -224,19 +224,25 @@ function Nav() {
 function Hero() {
   return (
     <section id="top" className="relative overflow-hidden bg-[#faf7f2]">
-      {/* Desktop: team photo as the background; its left side fades to cream for the text. */}
-      <img
-        src="/images/teams/hero-team.jpg"
-        alt=""
-        aria-hidden
-        className="pointer-events-none absolute inset-0 hidden h-full w-full object-cover object-right lg:block"
-      />
+      {/* Wide screens: team photo on the right; its own cream fade meets the cream background. */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-y-0 left-0 hidden w-[60%] bg-gradient-to-r from-[#faf7f2] via-[#faf7f2]/90 to-transparent lg:block"
-      />
-      <div className="relative mx-auto flex w-full max-w-6xl items-center px-5 pt-12 pb-10 sm:px-8 sm:pt-20 lg:min-h-[640px] lg:px-12 lg:pb-24">
-        <motion.div initial="hidden" animate="show" variants={stagger} className="max-w-xl">
+        className="pointer-events-none absolute inset-y-0 right-0 hidden w-[62%] xl:block"
+      >
+        <img
+          src="/images/teams/hero-team.jpg"
+          alt=""
+          className="h-full w-full object-cover object-right"
+        />
+        <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-[#faf7f2] to-transparent" />
+      </div>
+      <div className="relative mx-auto flex w-full max-w-6xl items-center px-5 pt-12 pb-10 sm:px-8 sm:pt-20 lg:px-12 xl:min-h-[600px] xl:pb-20">
+        <motion.div
+          initial="hidden"
+          animate="show"
+          variants={stagger}
+          className="max-w-xl xl:max-w-[31rem]"
+        >
           <motion.span
             variants={item}
             className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1 text-xs font-semibold uppercase tracking-wider text-muted-foreground"
@@ -246,7 +252,7 @@ function Hero() {
           </motion.span>
           <motion.h1
             variants={item}
-            className="mt-5 font-display text-4xl font-extrabold leading-[1.08] text-foreground sm:text-5xl lg:text-[3.2rem]"
+            className="mt-5 font-display text-4xl font-extrabold leading-[1.08] text-foreground sm:text-5xl xl:text-[2.9rem]"
           >
             You're paying for leads.{" "}
             <span className="text-gradient-brand">
@@ -292,8 +298,8 @@ function Hero() {
           </motion.ul>
         </motion.div>
       </div>
-      {/* Phones/tablets: the photo sits under the text so it never covers the headline. */}
-      <div className="relative lg:hidden">
+      {/* Below 1280px: the photo sits under the text so it never covers the headline. */}
+      <div className="relative xl:hidden">
         <div
           aria-hidden
           className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-[#faf7f2] to-transparent"
