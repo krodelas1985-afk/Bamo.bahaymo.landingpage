@@ -25,6 +25,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { LEAD_INTAKE_WEBHOOK_URL } from "@/lib/links";
 import logo from "@/assets/baymo-logo.png.asset.json";
 import heroDesktop from "@/assets/hero-desktop.mp4.asset.json";
 import heroMobile from "@/assets/hero-mobile.mp4.asset.json";
@@ -166,11 +167,21 @@ function Nav() {
             </a>
           ))}
         </nav>
-        <a href="#apply">
-          <Button className="bg-gradient-brand text-white hover:opacity-95 shadow-glow h-10 px-5 rounded-full">
-            Apply now
-          </Button>
-        </a>
+        <div className="flex items-center gap-3">
+          <div className="flex items-center rounded-full border border-border bg-card p-0.5 text-xs font-semibold">
+            <span className="rounded-full bg-[color:var(--brand-navy)] px-3 py-1.5 text-white">
+              For Agents
+            </span>
+            <a href="/teams" className="rounded-full px-3 py-1.5 text-muted-foreground hover:text-foreground">
+              For Teams
+            </a>
+          </div>
+          <a href="#apply" className="hidden sm:block">
+            <Button className="bg-gradient-brand text-white hover:opacity-95 shadow-glow h-10 px-5 rounded-full">
+              Apply now
+            </Button>
+          </a>
+        </div>
       </div>
     </header>
   );
@@ -799,8 +810,6 @@ function Founding() {
   );
 }
 
-const LEAD_INTAKE_WEBHOOK_URL =
-  "https://n8n-bahaymo.onrender.com/webhook/bamo-landing-lead";
 
 function CTA() {
   const [submitted, setSubmitted] = useState(false);
