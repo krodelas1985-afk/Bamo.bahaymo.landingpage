@@ -385,11 +385,10 @@ function Journey() {
         eyebrow="Capture → assign → act → monitor"
         title={
           <>
-            You're paying for leads.{" "}
-            <span className="text-gradient-brand">What happens to them next?</span>
+            One inquiry, <span className="text-gradient-brand">from your ad to a viewing.</span>
           </>
         }
-        body="Follow one inquiry from your ad to a booked viewing — and see where your team, and you, fit in."
+        body="Here's what happens next — and where your team, and you, fit in."
       />
       <motion.ol
         {...inView}
