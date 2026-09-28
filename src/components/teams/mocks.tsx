@@ -40,19 +40,21 @@ export function DashboardMock({ compact = false }: { compact?: boolean }) {
   const stats = [
     { label: "New inquiries", value: "148", note: "this week" },
     { label: "Unassigned", value: "6", note: "needs an owner", warn: true },
-    { label: "Median first reply", value: "0:42", note: "min:sec" },
-    { label: "Viewings booked", value: "23", note: "this week" },
+    { label: "BaMo first reply", value: "0:42", note: "median, min:sec" },
+    { label: "Stalled leads", value: "9", note: "no contact in 14 days", warn: true },
   ];
   const agents = [
-    { name: "Agent R.", open: 18, due: 2, viewings: 5 },
-    { name: "Agent M.", open: 15, due: 0, viewings: 4 },
-    { name: "Agent J.", open: 21, due: 5, viewings: 2 },
-    { name: "Agent L.", open: 12, due: 1, viewings: 6 },
+    { name: "Agent R.", open: 18, follow: "12m", viewings: 5 },
+    { name: "Agent M.", open: 15, follow: "25m", viewings: 4 },
+    { name: "Agent J.", open: 21, follow: "3h", viewings: 2, slow: true },
+    { name: "Agent L.", open: 12, follow: "18m", viewings: 6 },
   ];
-  const projects = [
-    { name: "Project A", leads: 62, pct: 100 },
-    { name: "Project B", leads: 49, pct: 79 },
-    { name: "Project C", leads: 37, pct: 60 },
+  const stages = [
+    { name: "New", n: 41 },
+    { name: "In contact", n: 58 },
+    { name: "Qualified", n: 27 },
+    { name: "Viewing", n: 14 },
+    { name: "Negotiating", n: 6 },
   ];
   return (
     <div className="relative rounded-3xl border border-border bg-card p-4 shadow-elegant sm:p-5">
@@ -83,7 +85,7 @@ export function DashboardMock({ compact = false }: { compact?: boolean }) {
       <div className="mt-4 rounded-xl border border-border bg-background p-3">
         <div className="flex items-center justify-between text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
           <span>Leads by agent</span>
-          <span className="hidden sm:inline">Open · Follow-ups due · Viewings</span>
+          <span className="hidden sm:inline">Open · Agent follow-up · Viewings</span>
         </div>
         <ul className="mt-2 divide-y divide-border">
           {agents.map((a) => (
@@ -97,11 +99,11 @@ export function DashboardMock({ compact = false }: { compact?: boolean }) {
               <span className="flex items-center gap-3 text-xs text-muted-foreground sm:gap-5">
                 <span className="w-6 text-right font-semibold text-foreground">{a.open}</span>
                 <span
-                  className={`w-6 text-right font-semibold ${
-                    a.due > 2 ? "text-[color:var(--brand-red)]" : "text-foreground"
+                  className={`w-8 text-right font-semibold ${
+                    a.slow ? "text-[color:var(--brand-red)]" : "text-foreground"
                   }`}
                 >
-                  {a.due}
+                  {a.follow}
                 </span>
                 <span className="w-6 text-right font-semibold text-foreground">{a.viewings}</span>
               </span>
@@ -113,19 +115,19 @@ export function DashboardMock({ compact = false }: { compact?: boolean }) {
       {!compact && (
         <div className="mt-4 rounded-xl border border-border bg-background p-3">
           <div className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-            Inquiries by project
+            Pipeline by stage
           </div>
           <ul className="mt-2 space-y-2">
-            {projects.map((p) => (
+            {stages.map((p) => (
               <li key={p.name} className="text-xs">
                 <div className="flex justify-between text-foreground">
                   <span className="font-medium">{p.name}</span>
-                  <span className="font-semibold">{p.leads}</span>
+                  <span className="font-semibold">{p.n}</span>
                 </div>
                 <div className="mt-1 h-2 rounded-full bg-secondary">
                   <div
                     className="h-2 rounded-full bg-gradient-brand"
-                    style={{ width: `${p.pct}%` }}
+                    style={{ width: `${Math.round((p.n / 58) * 100)}%` }}
                   />
                 </div>
               </li>

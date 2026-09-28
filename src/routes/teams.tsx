@@ -4,7 +4,6 @@ import { motion, MotionConfig, useScroll, useSpring } from "framer-motion";
 import {
   ArrowRight,
   ArrowRightLeft,
-  BarChart3,
   Building2,
   CheckCircle2,
   ClipboardList,
@@ -17,7 +16,6 @@ import {
   Settings2,
   ShieldCheck,
   Shuffle,
-  UserCheck,
   UserMinus,
   Users,
   GraduationCap,
@@ -259,6 +257,12 @@ function Hero() {
           </motion.div>
           <motion.div variants={item}>
             <MessengerHint />
+            <a
+              href="#demo"
+              className="mt-2 inline-block text-xs font-semibold text-foreground underline underline-offset-4"
+            >
+              Prefer a form? Request a demo by email →
+            </a>
           </motion.div>
           <motion.ul
             variants={stagger}
@@ -308,7 +312,7 @@ function Pain() {
     <Section className="rounded-[2rem] bg-[color:var(--tint-cream)] py-20 sm:py-24">
       <SectionHead
         eyebrow="Sound familiar?"
-        title="The ads are working. What happens after the inquiry is harder to see."
+        title="Your ads bring inquiries. Can you see what happens next?"
       />
       <motion.ul
         {...inView}
@@ -378,7 +382,7 @@ function Journey() {
   return (
     <Section id="journey" className="py-20 sm:py-28">
       <SectionHead
-        eyebrow="One connected process"
+        eyebrow="Capture → assign → act → monitor"
         title={
           <>
             You're paying for leads.{" "}
@@ -413,47 +417,6 @@ function Journey() {
         <SampleTag />
       </div>
 
-      <motion.div {...inView} variants={fadeUp} className="mt-12 grid gap-5 md:grid-cols-2">
-        {[
-          {
-            who: "Manager view",
-            icon: BarChart3,
-            qs: [
-              "Who owns each lead?",
-              "Who needs to act today?",
-              "Which opportunities have stalled?",
-            ],
-            dark: true,
-          },
-          {
-            who: "Agent view",
-            icon: UserCheck,
-            qs: ["Who should I contact today?", "What does this buyer need?", "What happens next?"],
-            dark: false,
-          },
-        ].map((v) => (
-          <div
-            key={v.who}
-            className={`rounded-2xl p-6 ${
-              v.dark
-                ? "bg-[color:var(--brand-navy)] text-white"
-                : "border border-border bg-[color:var(--tint-sky)] text-foreground"
-            }`}
-          >
-            <div className="flex items-center gap-2 font-display text-lg font-bold">
-              <v.icon className="h-5 w-5 text-[color:var(--brand-orange)]" /> {v.who}
-            </div>
-            <ul className="mt-4 space-y-2">
-              {v.qs.map((q) => (
-                <li key={q} className="flex items-center gap-2 text-sm">
-                  <CheckCircle2 className="h-4 w-4 flex-shrink-0 text-[color:var(--brand-orange)]" />
-                  {q}
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </motion.div>
       <div className="mt-10 flex flex-col items-center text-center">
         <DemoButton refId="teams_journey" label="See it with your own leads" />
       </div>
@@ -477,14 +440,14 @@ function Allocation() {
     },
     {
       icon: ShieldCheck,
-      t: "Nothing walks out the door",
-      d: "When an agent leaves, hand their open clients to someone else in one step.",
+      t: "Keep client history when your team changes",
+      d: "When an agent leaves, reassign their open clients in one step. Conversations and notes stay with each lead.",
     },
   ];
   return (
     <Section className="rounded-[2rem] bg-[color:var(--tint-sky)] py-20 sm:py-24">
       <SectionHead
-        eyebrow="Lead allocation & accountability"
+        eyebrow="Assign"
         title="Assign the right agent. Know who followed up."
         body="Clear ownership for every buyer — so nothing falls between agents and nobody has to ask who's handling it."
       />
@@ -523,7 +486,7 @@ function AgentTools() {
       <div className="grid items-center gap-12 lg:grid-cols-2">
         <div>
           <SectionHead
-            eyebrow="Tools for your agents"
+            eyebrow="Act"
             title="Give your agents a clear list, not a messy inbox."
             body="Each agent opens the BaMo app and sees exactly who to contact, what the buyer needs, and what happens next."
           />
@@ -532,7 +495,7 @@ function AgentTools() {
               "Assigned clients with the full conversation history",
               "Reminders and follow-ups that are due",
               "Viewing and call appointments",
-              "Approved project materials — brochures, price lists, computations",
+              "Project documents — brochures, price lists, sample computations",
             ].map((t) => (
               <motion.li key={t} variants={item} className="flex items-start gap-3 text-foreground">
                 <CheckCircle2 className="mt-0.5 h-5 w-5 flex-shrink-0 text-[color:var(--brand-orange)]" />
@@ -562,18 +525,18 @@ function Visibility() {
         </motion.div>
         <div className="order-1 lg:order-2">
           <SectionHead
-            eyebrow="Visibility for management"
+            eyebrow="Monitor"
             title="See who is doing what — without asking."
-            body="Every inquiry, every assignment, every follow-up, in one overview."
+            body="One overview for managers: who owns each lead, who needs to act, and where buyers are in the pipeline."
           />
           <motion.ul {...inView} variants={stagger} className="mt-8 grid gap-3 sm:grid-cols-2">
             {[
               "See unassigned inquiries",
-              "Know who followed up",
-              "Response speed by agent",
+              "Spot leads no one has touched in 14 days",
+              "Agent follow-up speed — separate from BaMo's instant first reply",
               "Workload across the team",
-              "Appointments and viewings",
-              "Pipeline by campaign and project",
+              "Viewings booked, completed and no-shows",
+              "Pipeline by stage — filter by campaign or agent",
             ].map((t) => (
               <motion.li
                 key={t}
@@ -591,6 +554,63 @@ function Visibility() {
   );
 }
 
+/* ─── 6b. decide ──────────────────────────────────────────────── */
+
+function Decide() {
+  const cards = [
+    {
+      q: "Which campaigns bring buyers who reach a viewing?",
+      a: "Filter your pipeline by campaign and stage.",
+    },
+    {
+      q: "Which agents need help with follow-ups?",
+      a: "See stalled leads and each agent's follow-up speed.",
+    },
+    {
+      q: "Which projects have interest but little progress?",
+      a: "Filter each project's campaign: inquiries in, buyers moving forward.",
+    },
+    {
+      q: "Where should the next inquiry go?",
+      a: "Rotate evenly, or give more to agents who respond and convert.",
+    },
+  ];
+  return (
+    <Section className="py-20 sm:py-28">
+      <SectionHead
+        eyebrow="Decide"
+        title="Turn activity into decisions."
+        body="The point isn't more reports. It's knowing what to change on Monday."
+      />
+      <motion.div {...inView} variants={stagger} className="mt-10 grid gap-4 sm:grid-cols-2">
+        {cards.map((c) => (
+          <motion.div
+            key={c.q}
+            variants={item}
+            className="rounded-2xl border border-border bg-card p-6 shadow-sm"
+          >
+            <h3 className="font-display text-lg font-bold leading-snug">{c.q}</h3>
+            <p className="mt-2 flex items-start gap-2 text-sm text-muted-foreground">
+              <ArrowRight className="mt-0.5 h-4 w-4 flex-shrink-0 text-[color:var(--brand-orange)]" />
+              {c.a}
+            </p>
+          </motion.div>
+        ))}
+      </motion.div>
+      <motion.p
+        {...inView}
+        variants={fadeUp}
+        className="mt-8 max-w-3xl rounded-2xl bg-[color:var(--tint-sky)] p-5 text-sm text-foreground"
+      >
+        <span className="font-semibold">About ad returns:</span> BaMo shows what happens after each
+        inquiry — replies, owners, follow-ups, viewings and outcomes you record. To work out cost
+        per viewing or per sale, combine that with your ad spend. We&apos;ll walk through it with
+        your numbers on the demo.
+      </motion.p>
+    </Section>
+  );
+}
+
 /* ─── 7. scenarios ────────────────────────────────────────────── */
 
 function Scenarios() {
@@ -600,7 +620,7 @@ function Scenarios() {
       body: [
         "Each project runs its own campaign, so every inquiry arrives tagged with the project it's for.",
         "Your sales manager assigns each project's inquiries to the team handling it — in-house or partner brokerage.",
-        "The overview shows which projects are drawing interest, and whether each team is following through.",
+        "Filter the pipeline by each project's campaign to see which projects draw interest, and whether each team is following through.",
       ],
       outcomes: [
         "See which projects attract interest",
@@ -716,8 +736,12 @@ function Proof() {
           Proof
         </p>
         <h2 className="mt-3 font-display text-3xl font-extrabold sm:text-4xl">
-          Real results from BaMo clients.
+          Lead-response results from BaMo clients.
         </h2>
+        <p className="mt-4 text-lg text-white/75">
+          Mary Ann and Cristy are individual agents. This is how BaMo handled their inquiries — the
+          same first response every inquiry to your team would get.
+        </p>
       </motion.div>
       <motion.div {...inView} variants={stagger} className="mt-10 grid gap-5 md:grid-cols-2">
         {PROOF.map((p) => (
@@ -1105,6 +1129,7 @@ function TeamsLanding() {
           <Allocation />
           <AgentTools />
           <Visibility />
+          <Decide />
           <Scenarios />
           <Proof />
           <Setup />
