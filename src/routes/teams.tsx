@@ -160,7 +160,7 @@ function MessengerHint({ light = false }: { light?: boolean }) {
       }`}
     >
       <MessageSquare className="h-3.5 w-3.5" />
-      Opens Messenger — say hi and BayMo will set a time with you.
+      Opens Messenger — send &quot;TEAM DEMO&quot; and BayMo will set a time with you.
     </p>
   );
 }
