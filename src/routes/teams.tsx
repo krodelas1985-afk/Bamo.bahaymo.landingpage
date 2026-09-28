@@ -224,18 +224,20 @@ function Nav() {
 function Hero() {
   return (
     <section id="top" className="relative overflow-hidden bg-[#faf7f2]">
-      {/* Wide screens: team photo on the right; its own cream fade meets the cream background. */}
-      <div
+      {/* Wide screens: the whole photo, uncropped, on the right. Its left side is already
+          cream, so the headline sits on that; top and bottom edges fade into the background. */}
+      <img
+        src="/images/teams/hero-team.jpg"
+        alt=""
         aria-hidden
-        className="pointer-events-none absolute inset-y-0 right-0 hidden w-[62%] xl:block"
-      >
-        <img
-          src="/images/teams/hero-team.jpg"
-          alt=""
-          className="h-full w-full object-cover object-right"
-        />
-        <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-[#faf7f2] to-transparent" />
-      </div>
+        className="pointer-events-none absolute top-1/2 right-0 hidden w-[75%] -translate-y-1/2 xl:block"
+        style={{
+          maskImage:
+            "linear-gradient(to bottom, transparent 0%, #000 14%, #000 86%, transparent 100%)",
+          WebkitMaskImage:
+            "linear-gradient(to bottom, transparent 0%, #000 14%, #000 86%, transparent 100%)",
+        }}
+      />
       <div className="relative mx-auto flex w-full max-w-6xl items-center px-5 pt-12 pb-10 sm:px-8 sm:pt-20 lg:px-12 xl:min-h-[600px] xl:pb-20">
         <motion.div
           initial="hidden"
