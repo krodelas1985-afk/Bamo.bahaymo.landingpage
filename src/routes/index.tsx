@@ -1,957 +1,582 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
-import { motion, MotionConfig, useScroll, useSpring } from "framer-motion";
 import {
-  CheckCircle2,
-  Clock,
-  Filter,
-  MessageSquare,
-  Sparkles,
-  TrendingUp,
-  ShieldCheck,
   ArrowRight,
-  Zap,
-  Store,
-  Globe,
-  Megaphone,
-  Video,
   Bot,
+  Building2,
+  CheckCircle2,
   Database,
-  CalendarCheck,
-  ListChecks,
-  BarChart3,
-  X,
   Flag,
+  Globe,
+  Handshake,
+  Sparkles,
+  Users,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { LEAD_INTAKE_WEBHOOK_URL } from "@/lib/links";
-import logo from "@/assets/baymo-logo.png.asset.json";
-import heroDesktop from "@/assets/hero-desktop.mp4.asset.json";
-import heroMobile from "@/assets/hero-mobile.mp4.asset.json";
-
-function HeroVideo() {
-  return (
-    <section id="top" className="relative overflow-hidden bg-[color:var(--brand-navy)]">
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.8, ease: "easeOut" as const }}
-        className="relative z-10 w-full h-screen"
-      >
-        {/* Mobile video — shown only below sm (< 640px) */}
-        <video
-          src={heroMobile.url}
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          className="block sm:hidden h-full w-full object-cover"
-          aria-label="Powered by AI, Led by People"
-        />
-        {/* Desktop/tablet video — shown sm and above */}
-        <video
-          src={heroDesktop.url}
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          className="hidden sm:block h-full w-full object-cover"
-          aria-label="Powered by AI, Led by People"
-        />
-      </motion.div>
-    </section>
-  );
-}
+import {
+  Action,
+  InquiryLink,
+  Pillars,
+  Section,
+  SectionHeading,
+  SiteFooter,
+  SiteHeader,
+  SummitFeature,
+} from "@/components/site";
+import { AgentForm } from "@/components/agent-form";
+import { pageHead } from "@/lib/site";
 
 export const Route = createFileRoute("/")({
   head: () => ({
-    meta: [
-      { title: "BayMo — Your AI Growth Team for Philippine Real Estate" },
+    ...pageHead(
+      "BaMo | AI Growth Tools for Philippine Real Estate",
+      "Manage real estate leads, AI-assisted responses, follow-ups, and marketing with BaMo. Built for Philippine agents, brokers, and developer teams.",
+      "/",
+    ),
+    scripts: [
       {
-        name: "description",
-        content:
-          "BaMo builds your website, runs your ads, replies to every lead 24/7 and books appointments — so Filipino real estate agents can focus on closing.",
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          name: "BaMo",
+          url: "https://bamo.bahaymo.com",
+          logo: "https://bamo.bahaymo.com/baymo-logo.png",
+          description:
+            "Philippine-built technology and growth platform for real estate professionals.",
+        }),
       },
-      { property: "og:title", content: "BayMo — Your AI Growth Team for Real Estate" },
-      {
-        property: "og:description",
-        content:
-          "Website, ads, content, follow-up, CRM and appointment setting — done for you. Built for Philippine real estate.",
-      },
-      { property: "og:type", content: "website" },
-      { property: "og:url", content: "https://bamo.bahaymo.com/" },
-      { property: "og:image", content: "https://bamo.bahaymo.com/og-image.png" },
-      { property: "og:image:width", content: "1200" },
-      { property: "og:image:height", content: "630" },
-      {
-        property: "og:image:alt",
-        content: "BayMo — Your AI Growth Team for Real Estate",
-      },
-      { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:image", content: "https://bamo.bahaymo.com/og-image.png" },
     ],
   }),
   component: Landing,
 });
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 24 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" as const } },
-};
-
-const stagger = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.09, delayChildren: 0.05 } },
-};
-
-const item = {
-  hidden: { opacity: 0, y: 18 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" as const } },
-};
-
-const cardHover = {
-  y: -6,
-  transition: { type: "spring" as const, stiffness: 320, damping: 22 },
-};
-
-function ScrollProgress() {
-  const { scrollYProgress } = useScroll();
-  const scaleX = useSpring(scrollYProgress, { stiffness: 140, damping: 26, mass: 0.4 });
+function ProductPreview() {
   return (
-    <motion.div
-      aria-hidden
-      style={{ scaleX }}
-      className="fixed inset-x-0 top-0 z-50 h-[3px] origin-left bg-gradient-brand"
-    />
-  );
-}
-
-function Section({
-  id,
-  children,
-  className = "",
-}: {
-  id?: string;
-  children: React.ReactNode;
-  className?: string;
-}) {
-  return (
-    <section id={id} className={`relative px-5 sm:px-8 lg:px-12 ${className}`}>
-      <div className="mx-auto w-full max-w-6xl">{children}</div>
-    </section>
-  );
-}
-
-function Nav() {
-  return (
-    <header className="sticky top-0 z-40 border-b border-border/60 bg-background/80 backdrop-blur-md">
-      <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-5 sm:px-8 lg:px-12">
-        <a href="#top" className="flex items-center gap-2" aria-label="BayMo home">
-          <img src={logo.url} alt="BayMo" className="h-8 w-auto" />
-        </a>
-        <nav className="hidden items-center gap-8 text-sm font-medium text-muted-foreground md:flex">
-          {[
-            { href: "#included", label: "What's included" },
-            { href: "#how", label: "How it works" },
-            { href: "#founding", label: "Founding clients" },
-          ].map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
-              className="relative transition-colors hover:text-foreground after:absolute after:-bottom-1 after:left-0 after:h-[2px] after:w-0 after:rounded-full after:bg-gradient-brand after:transition-all after:duration-300 hover:after:w-full"
-            >
-              {l.label}
-            </a>
-          ))}
-        </nav>
+    <div className="relative min-w-0 rounded-[2rem] border border-border bg-white p-5 shadow-elegant sm:p-7">
+      <div className="flex items-center justify-between gap-3 border-b border-border pb-5">
         <div className="flex items-center gap-3">
-          <div className="flex items-center rounded-full border border-border bg-card p-0.5 text-xs font-semibold">
-            <span className="rounded-full bg-[color:var(--brand-navy)] px-3 py-1.5 text-white">
-              For Agents
-            </span>
-            <a href="/teams" className="rounded-full px-3 py-1.5 text-muted-foreground hover:text-foreground">
-              For Teams
-            </a>
+          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[color:var(--brand-navy)] font-display font-extrabold text-white">
+            B
           </div>
-          <a href="#apply" className="hidden sm:block">
-            <Button className="bg-gradient-brand text-white hover:opacity-95 shadow-glow h-10 px-5 rounded-full">
-              Apply now
-            </Button>
-          </a>
-        </div>
-      </div>
-    </header>
-  );
-}
-
-function Hero() {
-  return (
-    <Section id="hero" className="bg-hero pt-14 pb-20 sm:pt-20 sm:pb-28">
-      <div className="grid items-center gap-12 lg:grid-cols-[1.05fr_1fr]">
-        <motion.div initial="hidden" animate="show" variants={stagger}>
-          <motion.span
-            variants={item}
-            className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1 text-xs font-semibold uppercase tracking-wider text-muted-foreground"
-          >
-            <Flag className="h-3.5 w-3.5 text-[color:var(--brand-orange)]" />
-            Your done-for-you growth team · Philippines
-          </motion.span>
-          <motion.h1
-            variants={item}
-            className="mt-5 font-display text-4xl font-extrabold leading-[1.08] text-foreground sm:text-5xl lg:text-6xl"
-          >
-            Your <span className="text-gradient-brand">AI Growth Team</span> for Real Estate.
-          </motion.h1>
-          <motion.p variants={item} className="mt-5 max-w-xl text-lg text-muted-foreground">
-            We build your website, manage your marketing, respond to every lead 24/7, and
-            book appointments — so you can focus on closing more sales.
-          </motion.p>
-          <motion.div variants={item} className="mt-8 flex flex-wrap items-center gap-4">
-            <a href="#apply">
-              <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-                <Button
-                  size="lg"
-                  className="bg-gradient-brand text-white hover:opacity-95 shadow-glow h-12 rounded-full px-7 text-base"
-                >
-                  Become a Founding Client <ArrowRight className="ml-1 h-4 w-4" />
-                </Button>
-              </motion.div>
-            </a>
-            <a href="#included" className="text-sm font-semibold text-foreground underline-offset-4 hover:underline">
-              See everything included ↓
-            </a>
-          </motion.div>
-          <motion.ul
-            variants={stagger}
-            className="mt-8 grid gap-3 text-sm text-muted-foreground sm:grid-cols-2"
-          >
-            {[
-              "Professional Website",
-              "Facebook Ads Managed",
-              "AI Content Creation",
-              "24/7 AI Follow-up",
-              "Private CRM",
-              "AI Appointment Setting",
-            ].map((t) => (
-              <motion.li key={t} variants={item} className="flex items-center gap-2">
-                <CheckCircle2 className="h-4 w-4 text-[color:var(--brand-orange)]" />
-                {t}
-              </motion.li>
-            ))}
-          </motion.ul>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, scale: 0.96, y: 20 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" as const, delay: 0.1 }}
-          className="relative"
-        >
-          <div className="absolute -inset-6 rounded-3xl bg-gradient-brand opacity-20 blur-2xl" aria-hidden />
-          <motion.div
-            animate={{ y: [0, -10, 0] }}
-            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" as const }}
-            className="relative rounded-3xl border border-border bg-card p-5 shadow-elegant"
-          >
-            <div className="flex items-center justify-between border-b border-border pb-4">
-              <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-brand text-white font-display font-bold">
-                  B
-                </div>
-                <div>
-                  <div className="font-display font-bold leading-tight">BayMo</div>
-                  <div className="text-xs text-muted-foreground">Your AI assistant · Today</div>
-                </div>
-              </div>
-              <motion.div
-                animate={{ opacity: [1, 0.6, 1] }}
-                transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" as const }}
-                className="flex items-center gap-1.5 rounded-full bg-[color:var(--brand-orange)]/10 px-3 py-1 text-xs font-semibold text-[color:var(--brand-red)]"
-              >
-                <span className="h-1.5 w-1.5 rounded-full bg-[color:var(--brand-red)]" />
-                Live
-              </motion.div>
-            </div>
-
-            <div className="mt-4 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-              New leads
-            </div>
-            <ul className="mt-2 space-y-2">
-              {[
-                { name: "Joanna R.", note: "Asked about 2BR in Sta. Rosa", tag: "Hot" },
-                { name: "Mark D.", note: "Replied to your Cavite ad", tag: "Warm" },
-                { name: "Liza P.", note: "Requested a price list", tag: "Warm" },
-              ].map((l, i) => (
-                <motion.li
-                  key={l.name}
-                  initial={{ opacity: 0, x: 16 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.45 + i * 0.15, duration: 0.45, ease: "easeOut" as const }}
-                  className="flex items-center justify-between rounded-xl border border-border bg-background px-4 py-3"
-                >
-                  <div>
-                    <div className="font-semibold text-foreground">{l.name}</div>
-                    <div className="text-xs text-muted-foreground">{l.note}</div>
-                  </div>
-                  <span
-                    className={`rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider ${
-                      l.tag === "Hot"
-                        ? "bg-gradient-brand text-white"
-                        : "bg-secondary text-secondary-foreground"
-                    }`}
-                  >
-                    {l.tag}
-                  </span>
-                </motion.li>
-              ))}
-            </ul>
-
-            <div className="mt-4 rounded-xl bg-[color:var(--brand-navy)] p-4 text-white">
-              <div className="text-[10px] font-semibold uppercase tracking-wider text-white/60">
-                Next appointment · Phone call
-              </div>
-              <div className="mt-1 font-display font-bold">Joanna R. · 3:30 PM</div>
-              <div className="mt-1 text-xs text-white/70">
-                Booked automatically · Budget confirmed ₱4.2M
-              </div>
-            </div>
-
-            <div className="mt-4 flex items-center gap-2 text-xs text-muted-foreground">
-              <Zap className="h-4 w-4 text-[color:var(--brand-orange)]" />
-              Every inquiry replied to in under a minute.
-            </div>
-          </motion.div>
-        </motion.div>
-      </div>
-    </Section>
-  );
-}
-
-function Problem() {
-  const items = [
-    {
-      icon: Clock,
-      t: "You're doing two full-time jobs",
-      d: "Content, ads, Messenger, follow-ups, scheduling — and you're still expected to close. Something always slips.",
-    },
-    {
-      icon: Filter,
-      t: "Leads go cold in minutes",
-      d: "If a buyer doesn't get a reply fast, they message the next agent. You can't be on Messenger 24/7 — BaMo can.",
-    },
-    {
-      icon: TrendingUp,
-      t: "Stitching tools together doesn't work",
-      d: "An ads guy here, a VA there, a CRM you barely use. Nothing talks to each other. Nothing actually grows the pipeline.",
-    },
-  ];
-  return (
-    <Section className="py-20 sm:py-28 bg-[color:var(--tint-cream)] rounded-[2rem]">
-      <motion.div
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true, margin: "-80px" }}
-        variants={fadeUp}
-        className="max-w-2xl"
-      >
-        <p className="text-sm font-semibold uppercase tracking-wider text-[color:var(--brand-red)]">
-          The honest truth
-        </p>
-        <h2 className="mt-3 font-display text-3xl font-extrabold sm:text-4xl">
-          Stop doing everything yourself.
-        </h2>
-        <p className="mt-4 text-lg text-muted-foreground">
-          As a real estate agent you're expected to create content, run ads, reply to
-          Messenger, follow up, organize leads, schedule appointments — and still close.
-          That's two full-time jobs. BaMo takes care of everything except the closing.
-        </p>
-      </motion.div>
-      <div className="mt-12 grid gap-5 md:grid-cols-3">
-        {items.map((it, i) => (
-          <motion.div
-            key={it.t}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, margin: "-60px" }}
-            variants={fadeUp}
-            transition={{ delay: i * 0.08 }}
-            whileHover={cardHover}
-            className="group rounded-2xl border border-border bg-card p-6 shadow-sm transition-shadow hover:shadow-elegant"
-          >
-            <div className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-brand text-white transition-transform duration-300 group-hover:-rotate-6 group-hover:scale-110">
-              <it.icon className="h-5 w-5" />
-            </div>
-            <h3 className="mt-4 font-display text-xl font-bold">{it.t}</h3>
-            <p className="mt-2 text-sm text-muted-foreground">{it.d}</p>
-          </motion.div>
-        ))}
-      </div>
-    </Section>
-  );
-}
-
-function AgentPain() {
-  return (
-    <Section className="py-20 sm:py-28">
-      <motion.div
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true, margin: "-80px" }}
-        variants={fadeUp}
-        className="max-w-2xl"
-      >
-        <h2 className="font-display text-3xl font-extrabold sm:text-4xl">
-          Being a real estate agent shouldn&apos;t feel like this.
-        </h2>
-        <p className="mt-4 text-lg text-muted-foreground">
-          Every day, thousands of agents work hard — replying to inquiries, chasing
-          follow-ups, juggling paperwork — and end up spending more time managing work —
-        </p>
-      </motion.div>
-      <motion.div
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true, margin: "-60px" }}
-        variants={fadeUp}
-        className="mt-12"
-      >
-        <img
-          src="/images/agent-pain.png"
-          alt="An exhausted real estate agent asleep on the couch after a long day, while her daughter tries to get her attention — time that should be spent on what matters most"
-          className="w-full h-auto rounded-2xl object-cover shadow-sm"
-        />
-      </motion.div>
-    </Section>
-  );
-}
-
-function Included() {
-  const items = [
-    {
-      icon: Store,
-      eyebrow: "Listed on BaMo",
-      t: "BaMo Marketplace Listing",
-      d: "Your properties live on bahaymo.com — a dedicated Philippine real estate marketplace where buyers are already searching.",
-    },
-    {
-      icon: Globe,
-      eyebrow: "Get found",
-      t: "Professional Website",
-      d: "Your own branded real estate site with property listings, inquiry forms, lead capture, and a custom domain.",
-    },
-    {
-      icon: Megaphone,
-      eyebrow: "Get seen",
-      t: "Facebook Ads Management",
-      d: "We plan, launch, monitor and optimize your campaigns to bring in qualified buyer inquiries. Ad budget is paid directly by you.",
-    },
-    {
-      icon: Video,
-      eyebrow: "Stay active",
-      t: "AI Marketing Content",
-      d: "Property promotions, social posts, ad creatives, AI promo videos and educational real estate content.",
-    },
-    {
-      icon: Bot,
-      eyebrow: "Never miss a lead",
-      t: "24/7 AI Sales Assistant",
-      d: "Instant replies to every inquiry. Answers questions, qualifies buyers, collects budget and preferences.",
-    },
-    {
-      icon: Database,
-      eyebrow: "Own your pipeline",
-      t: "Private CRM",
-      d: "Every conversation, lead and appointment in one place — from inquiry to closing. Your data always belongs to you.",
-    },
-    {
-      icon: CalendarCheck,
-      eyebrow: "Show, don't chase",
-      t: "AI Appointment Setting",
-      d: "Once a buyer is qualified, BaMo books the appointment — so you spend more time showing properties.",
-    },
-    {
-      icon: ListChecks,
-      eyebrow: "Always organized",
-      t: "AI Lead Management",
-      d: "BaMo prioritizes your hottest prospects, tracks every conversation, sends follow-ups and reminds you when it's time to act.",
-    },
-    {
-      icon: BarChart3,
-      eyebrow: "See the results",
-      t: "Performance Reports",
-      d: "A monthly picture of what your growth team delivered: leads, appointments booked, ad performance and response rates.",
-    },
-  ];
-  return (
-    <Section id="included" className="py-20 sm:py-28 bg-[color:var(--tint-sky)] rounded-[2rem]">
-      <motion.div
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true, margin: "-80px" }}
-        variants={fadeUp}
-        className="max-w-2xl"
-      >
-        <p className="text-sm font-semibold uppercase tracking-wider text-[color:var(--brand-orange)]">
-          Everything included
-        </p>
-        <h2 className="mt-3 font-display text-3xl font-extrabold sm:text-4xl">
-          Everything you need to <span className="text-gradient-brand">grow.</span>
-        </h2>
-        <p className="mt-4 text-lg text-muted-foreground">
-          One service. No freelancers to manage, no software to stitch together — every
-          outcome below is handled for you.
-        </p>
-      </motion.div>
-      <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-        {items.map((it, i) => (
-          <motion.div
-            key={it.t}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, margin: "-60px" }}
-            variants={fadeUp}
-            transition={{ delay: (i % 3) * 0.06 }}
-            whileHover={cardHover}
-            className="group rounded-2xl border border-border bg-card p-6 transition-shadow hover:shadow-elegant"
-          >
-            <div className="flex items-center justify-between">
-              <div className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-[color:var(--brand-navy)] text-white transition-transform duration-300 group-hover:-rotate-6 group-hover:scale-110">
-                <it.icon className="h-5 w-5" />
-              </div>
-              <span className="text-[10px] font-bold uppercase tracking-wider text-[color:var(--brand-red)]">
-                {it.eyebrow}
-              </span>
-            </div>
-            <h3 className="mt-5 font-display text-lg font-bold">{it.t}</h3>
-            <p className="mt-2 text-sm text-muted-foreground">{it.d}</p>
-          </motion.div>
-        ))}
-      </div>
-    </Section>
-  );
-}
-
-function Replaces() {
-  const replaced = [
-    "Facebook Ads Specialist",
-    "Graphic Designer",
-    "Video Editor",
-    "Website Developer",
-    "CRM Software",
-    "Appointment Setter",
-    "VA for Messenger",
-  ];
-  const costs = [
-    { role: "Website Developer", price: "₱20,000+", note: "setup" },
-    { role: "Facebook Ads Manager", price: "₱15,000", note: "/month" },
-    { role: "Video Editor", price: "₱8,000", note: "/month" },
-    { role: "Graphic Designer", price: "₱8,000", note: "/month" },
-    { role: "Virtual Assistant", price: "₱20,000", note: "/month" },
-    { role: "CRM Software", price: "₱2,000", note: "/month" },
-    { role: "Appointment Setter", price: "₱20,000", note: "/month" },
-  ];
-  return (
-    <Section className="py-20 sm:py-28">
-      <div className="grid gap-10 lg:grid-cols-2">
-        <motion.div
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: "-60px" }}
-          variants={fadeUp}
-          className="rounded-2xl border border-border bg-card p-7"
-        >
-          <p className="text-sm font-semibold uppercase tracking-wider text-[color:var(--brand-red)]">
-            Replaces
-          </p>
-          <h3 className="mt-3 font-display text-2xl font-extrabold">
-            What you don't need anymore.
-          </h3>
-          <p className="mt-2 text-sm text-muted-foreground">
-            BaMo replaces all of these — and gets them working together.
-          </p>
-          <ul className="mt-6 space-y-2">
-            {replaced.map((r, i) => (
-              <motion.li
-                key={r}
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, margin: "-40px" }}
-                transition={{ delay: i * 0.06, duration: 0.45, ease: "easeOut" as const }}
-                className="flex items-center gap-3 rounded-xl border border-border bg-background px-4 py-3 text-sm"
-              >
-                <X className="h-4 w-4 text-[color:var(--brand-red)]" />
-                <span className="line-through decoration-[color:var(--brand-red)]/60 text-muted-foreground">
-                  {r}
-                </span>
-              </motion.li>
-            ))}
-          </ul>
-          <p className="mt-6 text-sm font-semibold">One service replaces them all.</p>
-        </motion.div>
-
-        <motion.div
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: "-60px" }}
-          variants={fadeUp}
-          className="rounded-2xl bg-[color:var(--brand-navy)] p-7 text-white shadow-elegant"
-        >
-          <p className="text-sm font-semibold uppercase tracking-wider text-[color:var(--brand-orange)]">
-            The math
-          </p>
-          <h3 className="mt-3 font-display text-2xl font-extrabold">
-            What it would cost to do this separately.
-          </h3>
-          <p className="mt-2 text-sm text-white/70">
-            Hiring each role on its own adds up fast.
-          </p>
-          <ul className="mt-6 divide-y divide-white/10">
-            {costs.map((c, i) => (
-              <motion.li
-                key={c.role}
-                initial={{ opacity: 0, x: 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, margin: "-40px" }}
-                transition={{ delay: i * 0.06, duration: 0.45, ease: "easeOut" as const }}
-                className="flex items-center justify-between py-3 text-sm"
-              >
-                <span className="text-white/80">{c.role}</span>
-                <span className="font-semibold tabular-nums">
-                  {c.price}
-                  <span className="text-white/50 font-normal">{c.note}</span>
-                </span>
-              </motion.li>
-            ))}
-            <motion.li
-              initial={{ opacity: 0, scale: 0.92 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true, margin: "-40px" }}
-              transition={{ delay: costs.length * 0.06 + 0.1, type: "spring" as const, stiffness: 260, damping: 18 }}
-              className="flex items-center justify-between py-4"
-            >
-              <span className="font-display font-bold">Total</span>
-              <span className="font-display text-xl font-extrabold text-[color:var(--brand-orange)] tabular-nums">
-                Over ₱70,000/mo
-              </span>
-            </motion.li>
-          </ul>
-          <p className="mt-4 text-xs text-white/50">
-            Figures are estimated typical Philippine market rates for hiring each role
-            separately.
-          </p>
-        </motion.div>
-      </div>
-    </Section>
-  );
-}
-
-function HowItWorks() {
-  return (
-    <Section id="how" className="py-20 sm:py-28 bg-[color:var(--tint-mint)] rounded-[2rem]">
-      <motion.div
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true, margin: "-80px" }}
-        variants={fadeUp}
-        className="max-w-2xl"
-      >
-        <p className="text-sm font-semibold uppercase tracking-wider text-[color:var(--brand-orange)]">
-          How it works
-        </p>
-        <h2 className="mt-3 font-display text-3xl font-extrabold sm:text-4xl">
-          Onboard once. BaMo handles the rest.
-        </h2>
-      </motion.div>
-      <motion.div
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true, margin: "-60px" }}
-        variants={fadeUp}
-        className="mt-12"
-      >
-        {/* Mobile image — shown only below sm (< 640px) */}
-        <img
-          src="/images/how-it-works-mobile.png"
-          alt="How BaMo works"
-          className="block sm:hidden w-full h-auto rounded-2xl object-contain"
-        />
-        {/* Desktop/tablet image — shown sm and above */}
-        <img
-          src="/images/how-it-works.png"
-          alt="How BaMo works"
-          className="hidden sm:block w-full h-auto rounded-2xl object-contain"
-        />
-      </motion.div>
-    </Section>
-  );
-}
-
-function BuiltForPH() {
-  return (
-    <Section className="py-20 sm:py-28">
-      <div className="overflow-hidden rounded-[2rem] bg-[color:var(--brand-navy)] p-8 sm:p-14 text-white shadow-elegant">
-        <div className="grid items-center gap-10 lg:grid-cols-[1fr_1.1fr]">
-          <motion.div
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true }}
-            variants={fadeUp}
-          >
-            <p className="text-sm font-semibold uppercase tracking-wider text-[color:var(--brand-orange)]">
-              Built for Philippine Real Estate
-            </p>
-            <h2 className="mt-3 font-display text-3xl font-extrabold sm:text-4xl">
-              Para sa bawat <span className="text-[color:var(--brand-orange)]">Ahenteng
-              Pilipino.</span>
-            </h2>
-            <p className="mt-4 text-white/70">
-              Not a generic CRM or a foreign marketing agency. BaMo was built exclusively
-              for Philippine real estate professionals — agents, brokers, teams and
-              developers — combining marketing, AI, automation and lead management into
-              one complete growth system.
-            </p>
-            <p className="mt-3 text-sm font-semibold text-white/90">
-              Because we deserve better.
-            </p>
-          </motion.div>
-
-          <motion.ul
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true }}
-            variants={stagger}
-            className="grid gap-3 sm:grid-cols-2"
-          >
-            {[
-              { t: "Leads Generated", d: "New inquiries from your campaigns" },
-              { t: "Appointments Booked", d: "Qualified buyers on your calendar" },
-              { t: "Response Time", d: "How fast every lead gets a reply" },
-              { t: "Qualified Leads", d: "Buyers with budget and intent" },
-              { t: "Cost Per Lead", d: "What each inquiry actually costs" },
-              { t: "Sales Pipeline", d: "Deals moving toward closing" },
-            ].map((m) => (
-              <motion.li
-                key={m.t}
-                variants={item}
-                whileHover={{ y: -3 }}
-                className="rounded-xl bg-white/5 p-4 ring-1 ring-white/10 transition-colors hover:bg-white/10"
-              >
-                <div className="font-display text-sm font-bold text-[color:var(--brand-orange)]">
-                  {m.t}
-                </div>
-                <div className="mt-1 text-xs text-white/70">{m.d}</div>
-              </motion.li>
-            ))}
-          </motion.ul>
-        </div>
-      </div>
-    </Section>
-  );
-}
-
-function Founding() {
-  const perks = [
-    "Complete done-for-you setup",
-    "Personalized onboarding",
-    "Priority support",
-    "Direct access to the founders",
-    "Founding-client pricing",
-    "Early access + lifetime adopter benefits",
-  ];
-  return (
-    <Section id="founding" className="py-20 sm:py-28 bg-[color:var(--tint-peach)] rounded-[2rem]">
-      <motion.div
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true }}
-        variants={fadeUp}
-        className="max-w-2xl"
-      >
-        <p className="text-sm font-semibold uppercase tracking-wider text-[color:var(--brand-red)]">
-          Founding Client Program
-        </p>
-        <h2 className="mt-3 font-display text-3xl font-extrabold sm:text-4xl">
-          Become one of our first <span className="text-gradient-brand">5 founding
-          clients.</span>
-        </h2>
-        <p className="mt-4 text-lg text-muted-foreground">
-          We're opening BaMo to only 5 founding clients this month — across CALABARZON
-          and nationwide. It's a hands-on, done-for-you service, so we keep each cohort
-          small.
-        </p>
-      </motion.div>
-      <motion.div
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true, margin: "-60px" }}
-        variants={stagger}
-        className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-3"
-      >
-        {perks.map((p) => (
-          <motion.div
-            key={p}
-            variants={item}
-            whileHover={{ y: -3 }}
-            className="flex items-start gap-3 rounded-xl border border-border bg-card p-4 transition-shadow hover:shadow-sm"
-          >
-            <ShieldCheck className="mt-0.5 h-5 w-5 flex-shrink-0 text-[color:var(--brand-orange)]" />
-            <span className="text-sm">{p}</span>
-          </motion.div>
-        ))}
-      </motion.div>
-      <p className="mt-6 max-w-2xl text-sm text-muted-foreground">
-        Your feedback shapes BaMo's future while your business runs on a dedicated AI
-        growth team.
-      </p>
-    </Section>
-  );
-}
-
-
-function CTA() {
-  const [submitted, setSubmitted] = useState(false);
-
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const form = e.currentTarget;
-    const data = Object.fromEntries(new FormData(form).entries());
-    if (LEAD_INTAKE_WEBHOOK_URL) {
-      fetch(LEAD_INTAKE_WEBHOOK_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      }).catch(() => {});
-    }
-    form.reset();
-    setSubmitted(true);
-  };
-
-  return (
-    <Section id="apply" className="py-20 sm:py-28">
-      <motion.div
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true }}
-        variants={fadeUp}
-        className="relative overflow-hidden rounded-[2rem] border border-border bg-card p-8 shadow-elegant sm:p-14"
-      >
-        <div
-          aria-hidden
-          className="absolute inset-x-0 -top-32 h-64 bg-gradient-brand opacity-20 blur-3xl"
-        />
-        <div className="relative grid gap-10 lg:grid-cols-[1fr_1fr] lg:items-center">
           <div>
-            <span className="inline-flex items-center gap-2 rounded-full border border-border bg-background px-3 py-1 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-              <Sparkles className="h-3.5 w-3.5 text-[color:var(--brand-orange)]" />
-              Only 5 founding spots
-            </span>
-            <h2 className="mt-5 font-display text-3xl font-extrabold leading-tight sm:text-5xl">
-              Ready to grow your real estate business?{" "}
-              <span className="text-gradient-brand">Reserve your spot.</span>
-            </h2>
-            <p className="mt-5 max-w-lg text-lg text-muted-foreground">
-              Let BaMo handle your website, marketing, ads, content, follow-up and
-              appointments — so you can focus on closing more deals.
-            </p>
-            <p className="mt-4 text-sm font-semibold text-foreground">
-              Marketing. AI. Follow-up. Appointments. All handled for you.
-            </p>
+            <p className="font-display font-bold">BaMo</p>
+            <p className="text-xs text-muted-foreground">A connected sales workflow</p>
           </div>
-
-          {submitted ? (
-            <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="flex flex-col items-center justify-center rounded-2xl border border-border bg-background p-8 text-center shadow-sm"
-            >
-              <motion.div
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ type: "spring" as const, stiffness: 260, damping: 16, delay: 0.15 }}
-                className="flex h-14 w-14 items-center justify-center rounded-full bg-[color:var(--brand-orange)]/10"
-              >
-                <CheckCircle2 className="h-8 w-8 text-[color:var(--brand-orange)]" />
-              </motion.div>
-              <p className="mt-5 font-display text-xl font-bold">
-                Thank you for applying!
-              </p>
-              <p className="mt-3 max-w-sm text-muted-foreground">
-                Thanks for applying to be one of our founding clients. A BaMo team
-                member will reach out to you soon.
-              </p>
-            </motion.div>
-          ) : (
-            <form
-              onSubmit={onSubmit}
-              className="rounded-2xl border border-border bg-background p-6 shadow-sm"
-            >
-              <p className="font-display text-lg font-bold">Apply to become a founding client</p>
-              <div className="mt-4 grid gap-3">
-                <Input name="fullName" required placeholder="Full name" className="h-11" />
-                <Input name="email" type="email" required placeholder="Email" className="h-11" />
-                <Input name="phone" required placeholder="Phone" className="h-11" />
-                <Input name="company" placeholder="Brokerage / company" className="h-11" />
-                <Input name="city" placeholder="City / area" className="h-11" />
-                <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="mt-2">
-                  <Button
-                    type="submit"
-                    size="lg"
-                    className="h-12 w-full rounded-full bg-gradient-brand text-white shadow-glow hover:opacity-95"
-                  >
-                    Reserve my spot <ArrowRight className="ml-1 h-4 w-4" />
-                  </Button>
-                </motion.div>
-                <p className="text-center text-xs text-muted-foreground">
-                  Real estate agents & brokers only · We reply within 1 business day
-                </p>
+        </div>
+        <Sparkles aria-hidden className="h-5 w-5 shrink-0 text-[color:var(--brand-navy)]" />
+      </div>
+      <p className="mt-5 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+        Know who needs your attention
+      </p>
+      <ul className="mt-4 space-y-3">
+        {[
+          {
+            name: "Joanna R.",
+            text: "Asked about a 2BR in Sta. Rosa",
+            next: "Arrange a viewing",
+            tag: "Hot",
+          },
+          {
+            name: "Mark D.",
+            text: "Replied to your Cavite campaign",
+            next: "Follow up on preferences",
+            tag: "Warm",
+          },
+          {
+            name: "Liza P.",
+            text: "Requested a price list",
+            next: "Share project details",
+            tag: "Warm",
+          },
+        ].map((lead) => (
+          <li key={lead.name} className="rounded-xl border border-border bg-background p-4">
+            <div className="flex items-start justify-between gap-3">
+              <div className="min-w-0">
+                <p className="font-semibold">{lead.name}</p>
+                <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{lead.text}</p>
               </div>
-            </form>
-          )}
-        </div>
-      </motion.div>
-    </Section>
-  );
-}
-
-function Footer() {
-  return (
-    <footer className="border-t border-border py-10">
-      <div className="mx-auto flex w-full max-w-6xl flex-col items-center justify-between gap-4 px-5 sm:flex-row sm:px-8 lg:px-12">
-        <div className="flex items-center gap-2">
-          <img src={logo.url} alt="BayMo" className="h-7 w-auto" />
-        </div>
-        <p className="flex items-center gap-2 text-xs text-muted-foreground">
-          <MessageSquare className="h-3.5 w-3.5" />
-          © {new Date().getFullYear()} BayMo · Built for Philippine real estate.
+              <span className="rounded-full bg-[color:var(--tint-cream)] px-2.5 py-1 text-xs font-semibold text-[color:var(--brand-navy)]">
+                {lead.tag}
+              </span>
+            </div>
+            <p className="mt-3 flex items-center gap-2 text-xs font-medium">
+              <ArrowRight aria-hidden size={13} />
+              {lead.next}
+            </p>
+          </li>
+        ))}
+      </ul>
+      <div className="mt-5 rounded-xl bg-[color:var(--brand-navy)] p-4 text-white">
+        <p className="text-xs text-white/70">Your team stays in the process</p>
+        <p className="mt-2 text-sm font-semibold">
+          AI supports the first response.
+          <br />
+          People build the buyer relationship.
         </p>
       </div>
-    </footer>
+      <p className="mt-4 text-xs text-muted-foreground">
+        Illustrative workflow · Sample data · Not a live dashboard
+      </p>
+    </div>
   );
 }
 
 function Landing() {
   return (
-    <MotionConfig reducedMotion="user">
-      <div className="min-h-screen bg-background text-foreground">
-        <ScrollProgress />
-        <Nav />
-        <main>
-          <HeroVideo />
-          <Hero />
-          <Problem />
-          <AgentPain />
-          <Included />
-          <Replaces />
-          <HowItWorks />
-          <BuiltForPH />
-          <Founding />
-          <CTA />
-        </main>
-        <Footer />
-      </div>
-    </MotionConfig>
+    <div className="min-h-screen bg-background text-foreground">
+      <SiteHeader />
+      <main id="main-content">
+        <Section id="top" className="bg-hero pt-12 sm:pt-16">
+          <div className="grid items-center gap-10 lg:grid-cols-[1.1fr_1fr]">
+            <div>
+              <p className="inline-flex items-center gap-2 rounded-full border border-border bg-white px-3 py-2 text-xs font-semibold text-[color:var(--brand-navy)]">
+                <Flag aria-hidden size={14} />
+                Built for Philippine real estate
+              </p>
+              <h1 className="mt-6 font-display text-4xl font-extrabold leading-[1.08] sm:text-5xl lg:text-6xl">
+                Your <span className="text-gradient-brand">AI Growth Team</span> for Real Estate.
+              </h1>
+              <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">
+                BaMo brings lead management, AI-assisted responses, follow-ups, and marketing
+                support into one connected system—so you and your team can spend more time working
+                with buyers and growing your business.
+              </p>
+              <div className="mt-8 flex flex-wrap gap-3">
+                <Action href="#apply">Request a Demo</Action>
+                <Action href="#how" secondary>
+                  See How It Works
+                </Action>
+              </div>
+              <ul className="mt-7 grid gap-3 text-sm text-muted-foreground sm:grid-cols-2">
+                {[
+                  "Organize your leads",
+                  "Support buyer conversations",
+                  "Keep follow-ups moving",
+                  "Give teams clear visibility",
+                ].map((text) => (
+                  <li key={text} className="flex items-center gap-2">
+                    <CheckCircle2
+                      aria-hidden
+                      size={16}
+                      className="shrink-0 text-[color:var(--brand-navy)]"
+                    />
+                    {text}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <ProductPreview />
+          </div>
+        </Section>
+
+        <Section id="audiences" className="bg-white">
+          <SectionHeading
+            eyebrow="For the way you work"
+            title="Built for the way you sell real estate."
+          >
+            Whether you work independently, lead a brokerage, or manage a developer sales team, BaMo
+            helps keep inquiries, follow-ups, and people connected.
+          </SectionHeading>
+          <div className="mt-10 grid gap-5 md:grid-cols-3">
+            {[
+              {
+                icon: Users,
+                name: "Individual agents & brokers",
+                body: "Keep leads organized, support buyer conversations, and know who to follow up with next.",
+                href: "#included",
+                cta: "Explore BaMo for Agents",
+              },
+              {
+                icon: Handshake,
+                name: "Brokerages & realty teams",
+                body: "Give each lead an owner and see how your agents are following through.",
+                href: "/teams",
+                cta: "Explore BaMo for Teams",
+              },
+              {
+                icon: Building2,
+                name: "Developer sales teams",
+                body: "Connect project inquiries with the people handling them and understand what happens next.",
+                href: "/teams#scenarios",
+                cta: "Explore the Developer Workflow",
+              },
+            ].map((card) => (
+              <article
+                key={card.name}
+                className="flex flex-col rounded-2xl border border-border bg-background p-6"
+              >
+                <card.icon aria-hidden className="h-7 w-7 text-[color:var(--brand-navy)]" />
+                <h3 className="mt-5 font-display text-xl font-bold">{card.name}</h3>
+                <p className="mt-3 flex-1 text-sm leading-relaxed text-muted-foreground">
+                  {card.body}
+                </p>
+                <a href={card.href} className="mt-6 text-sm font-semibold hover:underline">
+                  {card.cta} →
+                </a>
+              </article>
+            ))}
+          </div>
+        </Section>
+
+        <Section className="bg-[color:var(--tint-cream)]">
+          <SectionHeading
+            eyebrow="More room for the work that matters"
+            title="Stop doing everything yourself."
+          >
+            Inquiries arrive while you're in meetings, follow-ups pile up, and buyer details get
+            scattered across messages and spreadsheets. BaMo helps organize the routine work so you
+            can focus on conversations that need your attention.
+          </SectionHeading>
+          <div className="mt-9 grid gap-5 md:grid-cols-3">
+            {[
+              [
+                "Slow first responses",
+                "Buyers reach out while you're showing properties or meeting clients. Support the first conversation without losing sight of the person behind it.",
+              ],
+              [
+                "Scattered lead details",
+                "Keep buyer information and conversations together instead of piecing the story together from separate inboxes.",
+              ],
+              [
+                "Missed follow-ups",
+                "Know which prospects need a next step, with lead organization and follow-up support.",
+              ],
+            ].map(([title, body]) => (
+              <article key={title} className="rounded-2xl border border-border bg-white p-6">
+                <h3 className="font-display text-lg font-bold">{title}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{body}</p>
+              </article>
+            ))}
+          </div>
+          <a href="#how" className="mt-7 inline-block text-sm font-semibold hover:underline">
+            See the connected workflow →
+          </a>
+        </Section>
+
+        <Section id="how">
+          <SectionHeading
+            eyebrow="Capture → respond → organize → act"
+            title="From first inquiry to the next sales conversation."
+          >
+            Capture the inquiry, support the first response, organize buyer details, and keep the
+            next action visible. Agents stay involved in advice, viewings, and the sales
+            relationship.
+          </SectionHeading>
+          <ol className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              ["Capture the inquiry", "Start with your connected Facebook page and lead sources."],
+              [
+                "Support the response",
+                "AI-assisted replies help gather buyer questions, budget, and preferences.",
+              ],
+              [
+                "Organize and follow up",
+                "Keep details in your CRM and identify prospects who need attention.",
+              ],
+              [
+                "Act and review",
+                "People handle the next conversation, viewing, and sales decision.",
+              ],
+            ].map(([title, body], i) => (
+              <li key={title} className="rounded-2xl border border-border bg-white p-6">
+                <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-[color:var(--brand-navy)] text-sm font-bold text-white">
+                  {i + 1}
+                </span>
+                <h3 className="mt-5 font-display text-lg font-bold">{title}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{body}</p>
+              </li>
+            ))}
+          </ol>
+          <div className="mt-8 flex flex-wrap items-center gap-5">
+            <Action href="#apply">See BaMo in Action</Action>
+            <a href="/teams#journey" className="text-sm font-semibold hover:underline">
+              See how a lead moves through a team →
+            </a>
+          </div>
+        </Section>
+
+        <Section id="included" className="bg-[color:var(--tint-sky)]">
+          <SectionHeading
+            eyebrow="Connected technology. Human expertise."
+            title="Your tools and team, working together."
+          >
+            BaMo brings technology, automation, marketing, and lead management into one connected
+            system so real estate professionals and their teams can work more efficiently. Keep the
+            specialists and relationships that help your business grow.
+          </SectionHeading>
+          <div className="mt-10 grid gap-5 sm:grid-cols-2">
+            {[
+              {
+                icon: Database,
+                title: "Manage your leads",
+                body: "CRM, lead prioritization, conversation history, and follow-up support help you keep the next action clear.",
+                tag: "Technology",
+              },
+              {
+                icon: Bot,
+                title: "Support sales conversations",
+                body: "AI-assisted responses and appointment workflows help move inquiries toward conversations with your team.",
+                tag: "Technology",
+              },
+              {
+                icon: Globe,
+                title: "Grow your presence",
+                body: "Property websites, marketing content, and Facebook ads management are part of BaMo's growth offer. Confirm the services included in your setup.",
+                tag: "Tools & managed services",
+              },
+              {
+                icon: Building2,
+                title: "Coordinate your team",
+                body: "Lead assignments, agent tools, and management visibility connect the work from inquiry to follow-through.",
+                tag: "Team setup",
+              },
+            ].map((card) => (
+              <article key={card.title} className="rounded-2xl border border-border bg-white p-6">
+                <div className="flex items-center gap-3">
+                  <card.icon aria-hidden className="h-6 w-6 text-[color:var(--brand-navy)]" />
+                  <p className="text-xs font-semibold text-muted-foreground">{card.tag}</p>
+                </div>
+                <h3 className="mt-4 font-display text-xl font-bold">{card.title}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{card.body}</p>
+              </article>
+            ))}
+          </div>
+          <div className="mt-6 flex flex-col justify-between gap-4 rounded-2xl border border-border bg-white p-6 sm:flex-row sm:items-center">
+            <div>
+              <h3 className="font-display font-bold">Connected to BahayMo Marketplace</h3>
+              <p className="mt-2 text-sm text-muted-foreground">
+                Property discovery and listings at bahaymo.com. Ask about listing access in your
+                BaMo offer.
+              </p>
+            </div>
+            <a
+              href="https://bahaymo.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="shrink-0 text-sm font-semibold hover:underline"
+            >
+              Explore BahayMo ↗
+            </a>
+          </div>
+          <p className="mt-5 text-sm leading-relaxed text-muted-foreground">
+            Software, onboarding, and managed services have different scopes. We'll explain what is
+            included before you commit. Advertising spend is paid separately by you.
+          </p>
+          <a href="#pricing" className="mt-5 inline-block text-sm font-semibold hover:underline">
+            Find the right setup →
+          </a>
+        </Section>
+
+        <Section>
+          <div className="grid items-center gap-8 lg:grid-cols-2">
+            <div>
+              <SectionHeading
+                eyebrow="Philippine-built"
+                title="Built for Philippine real estate. Grounded in everyday work."
+              >
+                Facebook inquiries, buyer follow-ups, agent coordination, and sales visibility: BaMo
+                focuses on the practical work behind the relationships.
+              </SectionHeading>
+              <p className="mt-6 font-display text-xl font-bold text-[color:var(--brand-navy)]">
+                Para sa bawat Ahenteng Pilipino.
+              </p>
+              <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
+                Technology should help people do their work well. Explore the tools, how your team
+                fits in, and what setup looks like.
+              </p>
+              <div className="mt-7">
+                <Action href="/teams#proof" secondary>
+                  See Client Response Results
+                </Action>
+              </div>
+              <p className="mt-3 text-xs text-muted-foreground">
+                Published individual-agent results, with dates and limitations. Results vary.
+              </p>
+            </div>
+            <img
+              src="/images/teams/hero-team-mobile.jpg"
+              alt="A real estate team reviewing project information together"
+              width="1074"
+              height="887"
+              loading="lazy"
+              className="w-full rounded-[2rem] object-cover"
+            />
+          </div>
+        </Section>
+
+        <Section id="pricing" className="bg-[color:var(--tint-cream)]">
+          <SectionHeading
+            eyebrow="Offer, onboarding & pricing"
+            title="Find the right BaMo setup for your business."
+          >
+            Understand the tools and support included in your offer, how onboarding works, and any
+            services or advertising costs charged separately.
+          </SectionHeading>
+          <div className="mt-10 grid gap-5 md:grid-cols-2">
+            <article className="rounded-2xl border border-border bg-white p-7">
+              <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                Agents & brokers
+              </p>
+              <h3 className="mt-4 font-display text-2xl font-bold">
+                Support for your everyday sales work.
+              </h3>
+              <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
+                Discuss the technology and growth services relevant to your business, with
+                personalized onboarding. Ask for current pricing and what your offer includes.
+              </p>
+              <div className="mt-6">
+                <InquiryLink intent="pricing" secondary>
+                  Request Current Pricing
+                </InquiryLink>
+              </div>
+              <p className="mt-3 text-xs text-muted-foreground">
+                Opens Messenger. Ask the BaMo team about your setup.
+              </p>
+            </article>
+            <article className="rounded-2xl border border-border bg-white p-7">
+              <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                Brokerages & developers
+              </p>
+              <h3 className="mt-4 font-display text-2xl font-bold">
+                A connected process for your team.
+              </h3>
+              <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
+                Team pricing depends on your team size and setup. Walk through lead sources,
+                assignments, and management visibility in a team demo.
+              </p>
+              <div className="mt-6">
+                <Action href="/teams#demo">Request a Team Demo</Action>
+              </div>
+            </article>
+          </div>
+          <div
+            id="founding"
+            className="mt-6 scroll-mt-24 rounded-2xl border border-border bg-white p-6"
+          >
+            <h3 className="font-display text-lg font-bold">
+              Interested in the Founding Client Program?
+            </h3>
+            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+              You can still inquire through the application form. The BaMo team will confirm current
+              availability, pricing, and benefits before you commit.
+            </p>
+            <a href="#apply" className="mt-4 inline-block text-sm font-semibold hover:underline">
+              Apply to Become a Founding Client →
+            </a>
+          </div>
+        </Section>
+
+        <Section id="vision" className="bg-[color:var(--tint-mint)]">
+          <SectionHeading
+            eyebrow="Technology. Knowledge. Collaboration."
+            title="Helping Philippine Real Estate Move Forward in the AI Era."
+          >
+            Technology is changing how properties are marketed, how buyers communicate, and how real
+            estate teams work. Keeping up can feel like another full-time job.
+          </SectionHeading>
+          <div className="mt-5 max-w-3xl space-y-4 text-base leading-relaxed text-muted-foreground">
+            <p>
+              Agents, brokers, and developer teams should not have to become technology experts to
+              stay competitive. BaMo helps make that change practical—with connected tools for
+              everyday work and a growing focus on the knowledge people need to use them well.
+            </p>
+            <p>
+              Our mission is to make innovation accessible to Philippine real estate. That means
+              helping professionals manage leads and follow-ups today, while creating opportunities
+              to understand new technology, learn from specialists, and collaborate across the
+              industry.
+            </p>
+          </div>
+          <Pillars />
+          <a href="/about" className="mt-7 inline-block text-sm font-semibold hover:underline">
+            Learn about BaMo's direction →
+          </a>
+          <details className="mt-8 rounded-2xl border border-border bg-white p-5">
+            <summary className="cursor-pointer text-sm font-semibold">
+              Our brand film: Powered by AI, Led by People
+            </summary>
+            <video
+              controls
+              playsInline
+              preload="none"
+              poster="/images/teams/hero-team.jpg"
+              aria-label="BaMo brand film, powered by AI and led by people"
+              className="mt-4 w-full rounded-xl"
+            >
+              <source src="/videos/hero-desktop.mp4" type="video/mp4" />
+              Your browser does not support video playback.
+            </video>
+            <p className="mt-3 text-xs text-muted-foreground">
+              A visual brand film. Explore the product workflow above for details of how BaMo
+              supports your business.
+            </p>
+          </details>
+        </Section>
+        <SummitFeature />
+
+        <Section id="faq" className="bg-white">
+          <SectionHeading eyebrow="Before you start" title="A few things you may be wondering." />
+          <div className="mt-8 divide-y divide-border rounded-2xl border border-border px-5 sm:px-7">
+            {[
+              [
+                "Is BaMo software or a managed service?",
+                "BaMo is a technology and growth platform. The current offer also includes onboarding and growth services such as marketing support. Confirm the tools and services included in your specific offer before you commit.",
+              ],
+              [
+                "Can we keep working with our ad agency?",
+                "Yes. BaMo works on the inquiries your current ads produce. Discuss your existing process with the team; you do not need to stop working with your specialists.",
+              ],
+              [
+                "Which channels do you start with?",
+                "Facebook Messenger and Facebook ads are the starting point described in our teams workflow. We'll review your lead sources and supported connections during your demo.",
+              ],
+              [
+                "What remains with me and my team?",
+                "Your expertise, buyer relationships, advice, viewings, and sales decisions remain central. BaMo supports responses, organization, follow-ups, and visibility around that work.",
+              ],
+              [
+                "How much does it cost?",
+                "Ask for current pricing and the exact scope of your setup. Team pricing depends on team size and requirements. Advertising spend is paid separately by you.",
+              ],
+              [
+                "Are Academy programs and Summit registration available?",
+                "Learning initiatives are in development, and the Innovation Summit is planned. Dates, speakers, and registration details will be published when confirmed. Summit inquiries currently open Messenger; they do not reserve a seat.",
+              ],
+            ].map(([q, a]) => (
+              <details key={q} className="py-5">
+                <summary className="cursor-pointer font-display text-base font-bold">{q}</summary>
+                <p className="mt-4 max-w-3xl text-sm leading-relaxed text-muted-foreground">{a}</p>
+              </details>
+            ))}
+          </div>
+        </Section>
+
+        <Section id="apply">
+          <div className="grid items-center gap-8 rounded-[2rem] border border-border bg-white p-6 shadow-elegant sm:p-10 lg:grid-cols-2">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                Start with your business
+              </p>
+              <h2 className="mt-4 font-display text-3xl font-extrabold sm:text-4xl">
+                See how BaMo fits your real estate business.
+              </h2>
+              <p className="mt-5 text-lg leading-relaxed text-muted-foreground">
+                Tell us how you handle inquiries today. We'll walk through the tools, support, and
+                setup relevant to your work.
+              </p>
+              <div className="mt-7">
+                <InquiryLink intent="agent_demo" secondary>
+                  Message BaMo
+                </InquiryLink>
+              </div>
+              <p className="mt-3 text-xs text-muted-foreground">
+                Opens Messenger. The BaMo team will help arrange your next step.
+              </p>
+            </div>
+            <AgentForm />
+          </div>
+        </Section>
+      </main>
+      <SiteFooter />
+    </div>
   );
 }

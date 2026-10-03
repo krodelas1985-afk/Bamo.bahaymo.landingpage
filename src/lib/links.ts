@@ -2,7 +2,7 @@
 
 export const LEAD_INTAKE_WEBHOOK_URL = "https://n8n-bahaymo.onrender.com/webhook/bamo-landing-lead";
 
-// BaMo Philippines Facebook page. BayMo (the B2B campaign) answers here and books demos.
+// BaMo Philippines Facebook page for demos and industry inquiries.
 const BAMO_PH_PAGE_ID = "939438402575577";
 
 // `ref` is stored by the CRM Messenger webhook in messenger_referrals, so each
@@ -17,5 +17,18 @@ export type TeamsDemoRef =
   | "teams_form_thanks";
 
 export function messengerDemoUrl(ref: TeamsDemoRef): string {
+  return `https://m.me/${BAMO_PH_PAGE_ID}?ref=${ref}`;
+}
+
+export type SiteInquiryRef =
+  | "agent_demo"
+  | "pricing"
+  | "summit_updates"
+  | "summit_sponsor"
+  | "summit_partner"
+  | "privacy"
+  | "about_partner";
+
+export function messengerInquiryUrl(ref: SiteInquiryRef): string {
   return `https://m.me/${BAMO_PH_PAGE_ID}?ref=${ref}`;
 }

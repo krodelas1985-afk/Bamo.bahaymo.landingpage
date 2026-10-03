@@ -63,7 +63,7 @@
 
 :root {
   --radius: 0.75rem;
-  /* BayMo brand: deep navy + orange→red gradient */
+  /* BaMo brand: deep navy + orange→red gradient */
   --background: oklch(0.99 0.005 80);
   --foreground: oklch(0.18 0.05 265);
   --card: oklch(1 0 0);
@@ -182,3 +182,23 @@ h1 { letter-spacing: -0.03em; }
 h1, h2, h3 { text-wrap: balance; }
 p { text-wrap: pretty; }
 .font-inter { font-family: 'Inter', system-ui, sans-serif; }
+
+.skip-link {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 100;
+  transform: translateY(-200%);
+  border-radius: 0.75rem;
+  background: var(--brand-navy);
+  color: white;
+  padding: 0.75rem 1rem;
+}
+.skip-link:focus { transform: translateY(0); }
+a:focus-visible, button:focus-visible, summary:focus-visible, select:focus-visible {
+  outline: 3px solid var(--brand-orange);
+  outline-offset: 4px;
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}

@@ -1,5 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
+import { SiteHeader, SiteFooter } from "@/components/site";
+import { pageHead } from "@/lib/site";
 import { motion, MotionConfig, useScroll, useSpring } from "framer-motion";
 import {
   ArrowRight,
@@ -30,34 +32,17 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import logo from "@/assets/baymo-logo.png.asset.json";
 import { AgentPhoneMock, DashboardMock, SampleTag, journeyCards } from "@/components/teams/mocks";
 import { LEAD_INTAKE_WEBHOOK_URL, messengerDemoUrl, type TeamsDemoRef } from "@/lib/links";
 
 export const Route = createFileRoute("/teams")({
-  head: () => ({
-    meta: [
-      { title: "BaMo for Developers & Brokerages — One Connected Sales Process" },
-      {
-        name: "description",
-        content:
-          "You're paying for leads. See every inquiry, assign the right agent, and know who followed up — BaMo gives Philippine developers and brokerages one connected sales process.",
-      },
-      { property: "og:title", content: "BaMo for Developers & Brokerages" },
-      {
-        property: "og:description",
-        content:
-          "You're paying for leads. Is your team turning them into sales opportunities? See every inquiry, assign the right agent, know who followed up.",
-      },
-      { property: "og:type", content: "website" },
-      { property: "og:url", content: "https://bamo.bahaymo.com/teams" },
-      { property: "og:image", content: "https://bamo.bahaymo.com/og-image.png" },
-      { property: "og:image:width", content: "1200" },
-      { property: "og:image:height", content: "630" },
-      { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:image", content: "https://bamo.bahaymo.com/og-image.png" },
-    ],
-  }),
+  head: () =>
+    pageHead(
+      "BaMo for Brokerages & Developers | Real Estate Lead Management",
+      "Connect inquiries, agent assignments, follow-ups, and sales visibility with BaMo. Explore a practical sales workflow for Philippine real estate teams.",
+      "/teams",
+      "/og-teams.png",
+    ),
   component: TeamsLanding,
 });
 
@@ -125,7 +110,7 @@ function SectionHead({
 
 function DemoButton({
   refId,
-  label = "Book a Team Demo",
+  label = "Request a Team Demo",
   className = "",
   size = "lg",
 }: {
@@ -135,18 +120,16 @@ function DemoButton({
   size?: "lg" | "sm";
 }) {
   return (
-    <a href={messengerDemoUrl(refId)} target="_blank" rel="noopener noreferrer">
-      <motion.span className="inline-block" whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-        <Button
-          size={size === "lg" ? "lg" : "default"}
-          className={`rounded-full bg-gradient-brand text-white shadow-glow hover:opacity-95 ${
-            size === "lg" ? "h-12 px-7 text-base" : "h-10 px-5"
-          } ${className}`}
-        >
-          {label} <ArrowRight className="ml-1 h-4 w-4" />
-        </Button>
-      </motion.span>
-    </a>
+    <Button
+      asChild
+      size={size === "lg" ? "lg" : "default"}
+      className={`rounded-full bg-gradient-brand text-white shadow-glow hover:opacity-95 ${size === "lg" ? "min-h-12 h-auto whitespace-normal px-7 py-3 text-base" : "h-10 px-5"} ${className}`}
+    >
+      <a href={messengerDemoUrl(refId)} target="_blank" rel="noopener noreferrer">
+        {label}
+        <ArrowRight aria-hidden className="ml-1 h-4 w-4" />
+      </a>
+    </Button>
   );
 }
 
@@ -158,7 +141,7 @@ function MessengerHint({ light = false }: { light?: boolean }) {
       }`}
     >
       <MessageSquare className="h-3.5 w-3.5" />
-      Opens Messenger — send &quot;TEAM DEMO&quot; and BayMo will set a time with you.
+      Opens Messenger — send &quot;TEAM DEMO&quot; and the BaMo team will help arrange a time.
     </p>
   );
 }
@@ -176,50 +159,6 @@ function ScrollProgress() {
 }
 
 /* ─── nav ─────────────────────────────────────────────────────── */
-
-function AudienceSwitch() {
-  return (
-    <div className="flex items-center rounded-full border border-border bg-card p-0.5 text-xs font-semibold">
-      <a href="/" className="rounded-full px-3 py-1.5 text-muted-foreground hover:text-foreground">
-        For Agents
-      </a>
-      <span className="rounded-full bg-[color:var(--brand-navy)] px-3 py-1.5 text-white">
-        For Teams
-      </span>
-    </div>
-  );
-}
-
-function Nav() {
-  return (
-    <header className="sticky top-0 z-40 border-b border-border/60 bg-background/85 backdrop-blur-md">
-      <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between gap-3 px-5 sm:px-8 lg:px-12">
-        <a href="/" className="flex flex-shrink-0 items-center gap-2" aria-label="BaMo home">
-          <img src={logo.url} alt="BaMo" className="h-8 w-auto" />
-        </a>
-        <nav className="hidden items-center gap-7 text-sm font-medium text-muted-foreground lg:flex">
-          {[
-            { href: "#journey", label: "How it works" },
-            { href: "#scenarios", label: "Developers & brokerages" },
-            { href: "#faq", label: "FAQ" },
-          ].map((l) => (
-            <a key={l.href} href={l.href} className="transition-colors hover:text-foreground">
-              {l.label}
-            </a>
-          ))}
-        </nav>
-        <div className="flex items-center gap-3">
-          <AudienceSwitch />
-          <span className="hidden sm:block">
-            <DemoButton refId="teams_nav" size="sm" />
-          </span>
-        </div>
-      </div>
-    </header>
-  );
-}
-
-/* ─── 1. hero ─────────────────────────────────────────────────── */
 
 function Hero() {
   return (
@@ -762,7 +701,10 @@ const PROOF = [
 
 function Proof() {
   return (
-    <Section className="rounded-[2rem] bg-[color:var(--brand-navy)] py-20 text-white sm:py-24">
+    <Section
+      id="proof"
+      className="rounded-[2rem] bg-[color:var(--brand-navy)] py-20 text-white sm:py-24"
+    >
       <motion.div {...inView} variants={fadeUp} className="max-w-2xl">
         <p className="text-sm font-semibold uppercase tracking-wider text-[color:var(--brand-orange)]">
           Proof
@@ -963,6 +905,7 @@ function TeamForm() {
       const res = await fetch(LEAD_INTAKE_WEBHOOK_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        signal: AbortSignal.timeout(20000),
         body: JSON.stringify({
           audience: "team",
           fullName: d.fullName.trim(),
@@ -984,13 +927,17 @@ function TeamForm() {
 
   if (state === "sent") {
     return (
-      <div className="flex flex-col items-center justify-center rounded-2xl border border-border bg-background p-8 text-center text-foreground shadow-sm">
+      <div
+        role="status"
+        className="flex flex-col items-center justify-center rounded-2xl border border-border bg-background p-8 text-center text-foreground shadow-sm"
+      >
         <span className="flex h-14 w-14 items-center justify-center rounded-full bg-[color:var(--brand-orange)]/10">
           <CheckCircle2 className="h-8 w-8 text-[color:var(--brand-orange)]" />
         </span>
         <p className="mt-5 font-display text-xl font-bold">Thanks — we've got your request.</p>
         <p className="mt-3 max-w-sm text-muted-foreground">
-          A BaMo team member will reach out within 1 business day. Want to pick a time now?
+          A BaMo team member will follow up about your request. This is not a confirmed booking.
+          Want to continue in Messenger?
         </p>
         <div className="mt-6">
           <DemoButton refId="teams_form_thanks" label="Continue in Messenger" size="sm" />
@@ -1001,14 +948,19 @@ function TeamForm() {
 
   return (
     <form
+      aria-busy={state === "sending"}
       noValidate
       onSubmit={onSubmit}
       className="rounded-2xl border border-border bg-background p-6 text-foreground shadow-sm"
     >
-      <p className="font-display text-lg font-bold">Prefer email? Leave your details.</p>
+      <p className="font-display text-lg font-bold">Leave your details for a team demo.</p>
       <div className="mt-4 grid gap-3">
         <div>
+          <label htmlFor="team-fullName" className="mb-1.5 block text-sm font-medium">
+            Your name
+          </label>
           <Input
+            id="team-fullName"
             name="fullName"
             placeholder="Your name"
             className="h-11"
@@ -1017,7 +969,11 @@ function TeamForm() {
           <FieldError msg={errors.fullName} />
         </div>
         <div>
+          <label htmlFor="team-company" className="mb-1.5 block text-sm font-medium">
+            Company
+          </label>
           <Input
+            id="team-company"
             name="company"
             placeholder="Company"
             className="h-11"
@@ -1027,7 +983,11 @@ function TeamForm() {
         </div>
         <div className="grid gap-3 sm:grid-cols-2">
           <div>
+            <label htmlFor="team-orgType" className="mb-1.5 block text-sm font-medium">
+              Organization type
+            </label>
             <select
+              id="team-orgType"
               name="orgType"
               defaultValue=""
               className={selectCls}
@@ -1043,7 +1003,11 @@ function TeamForm() {
             <FieldError msg={errors.orgType} />
           </div>
           <div>
+            <label htmlFor="team-agentCount" className="mb-1.5 block text-sm font-medium">
+              Number of agents
+            </label>
             <select
+              id="team-agentCount"
               name="agentCount"
               defaultValue=""
               className={selectCls}
@@ -1062,7 +1026,11 @@ function TeamForm() {
           </div>
         </div>
         <div>
+          <label htmlFor="team-contact" className="mb-1.5 block text-sm font-medium">
+            Email or mobile number
+          </label>
           <Input
+            id="team-contact"
             name="contact"
             placeholder="Email or mobile number"
             className="h-11"
@@ -1070,23 +1038,34 @@ function TeamForm() {
           />
           <FieldError msg={errors.contact} />
         </div>
+        <label htmlFor="team-challenge" className="text-sm font-medium">
+          Biggest lead-management challenge (optional)
+        </label>
         <Textarea
+          id="team-challenge"
           name="challenge"
           placeholder="Biggest lead-management challenge (optional)"
           className="min-h-20"
         />
         <Button
           type="submit"
+          disabled={state === "sending"}
           size="lg"
           className="mt-1 h-12 w-full rounded-full bg-[color:var(--brand-navy)] text-white hover:opacity-95"
         >
           {state === "sending" ? "Sending…" : "Request a Team Demo"}
         </Button>
         {state === "failed" && (
-          <p className="text-center text-sm text-[color:var(--brand-red)]">
+          <p role="alert" className="text-center text-sm text-[color:var(--brand-red)]">
             Sorry, that didn't go through. Please try again, or message us on Messenger.
           </p>
         )}
+        <p className="text-xs leading-relaxed text-muted-foreground">
+          Your details are sent to BaMo to respond to your inquiry.{" "}
+          <a href="/privacy" className="font-semibold underline">
+            Website privacy notice.
+          </a>
+        </p>
         <p className="text-center text-xs text-muted-foreground">
           Developers, brokerages and realty teams · We reply within 1 business day
         </p>
@@ -1129,32 +1108,13 @@ function Closing() {
   );
 }
 
-function Footer() {
-  return (
-    <footer className="border-t border-border py-10">
-      <div className="mx-auto flex w-full max-w-6xl flex-col items-center justify-between gap-4 px-5 sm:flex-row sm:px-8 lg:px-12">
-        <img src={logo.url} alt="BaMo" className="h-7 w-auto" />
-        <a
-          href="/"
-          className="text-sm font-semibold text-foreground underline-offset-4 hover:underline"
-        >
-          Are you an individual agent? See BaMo for Agents →
-        </a>
-        <p className="text-xs text-muted-foreground">
-          © {new Date().getFullYear()} BaMo · Built for Philippine real estate.
-        </p>
-      </div>
-    </footer>
-  );
-}
-
 function TeamsLanding() {
   return (
     <MotionConfig reducedMotion="user">
       <div className="min-h-screen overflow-x-clip bg-background text-foreground">
         <ScrollProgress />
-        <Nav />
-        <main>
+        <SiteHeader audience="teams" demoHref={messengerDemoUrl("teams_nav")} />
+        <main id="main-content">
           <Hero />
           <Pain />
           <Journey />
@@ -1168,7 +1128,7 @@ function TeamsLanding() {
           <Faq />
           <Closing />
         </main>
-        <Footer />
+        <SiteFooter />
       </div>
     </MotionConfig>
   );

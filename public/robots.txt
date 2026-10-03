@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://bamo.bahaymo.com/sitemap.xml
